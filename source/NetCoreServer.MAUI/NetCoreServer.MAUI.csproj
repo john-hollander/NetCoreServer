@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+
+		<Version>7.0.0.0</Version>
+		<Authors>Ivan Shynkarenka</Authors>
+		<Copyright>Copyright (c) 2019-2022 Ivan Shynkarenka</Copyright>
+		<RepositoryUrl>https://github.com/chronoxor/NetCoreServer</RepositoryUrl>
+		<Description>Ultra fast and low latency asynchronous socket server &amp; client C# .NET Core library with support TCP, SSL, UDP, HTTP, HTTPS, WebSocket protocols and 10K connections problem solution</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/chronoxor/NetCoreServer</PackageProjectUrl>
+		<PackageTags>async;client;server;tcp;udp;ssl;tls;http;https;websocket;low latency;performance</PackageTags>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Include="..\NetCoreServer\Buffer.cs" Link="Buffer.cs" />
+	  <Compile Include="..\NetCoreServer\HttpClient.cs" Link="HttpClient.cs" />
+	  <Compile Include="..\NetCoreServer\HttpRequest.cs" Link="HttpRequest.cs" />
+	  <Compile Include="..\NetCoreServer\HttpResponse.cs" Link="HttpResponse.cs" />
+	  <Compile Include="..\NetCoreServer\HttpsClient.cs" Link="HttpsClient.cs" />
+	  <Compile Include="..\NetCoreServer\HttpServer.cs" Link="HttpServer.cs" />
+	  <Compile Include="..\NetCoreServer\HttpSession.cs" Link="HttpSession.cs" />
+	  <Compile Include="..\NetCoreServer\HttpsServer.cs" Link="HttpsServer.cs" />
+	  <Compile Include="..\NetCoreServer\HttpsSession.cs" Link="HttpsSession.cs" />
+	  <Compile Include="..\NetCoreServer\IWebSocket.cs" Link="IWebSocket.cs" />
+	  <Compile Include="..\NetCoreServer\SslClient.cs" Link="SslClient.cs" />
+	  <Compile Include="..\NetCoreServer\SslContext.cs" Link="SslContext.cs" />
+	  <Compile Include="..\NetCoreServer\SslServer.cs" Link="SslServer.cs" />
+	  <Compile Include="..\NetCoreServer\SslSession.cs" Link="SslSession.cs" />
+	  <Compile Include="..\NetCoreServer\TcpClient.cs" Link="TcpClient.cs" />
+	  <Compile Include="..\NetCoreServer\TcpServer.cs" Link="TcpServer.cs" />
+	  <Compile Include="..\NetCoreServer\TcpSession.cs" Link="TcpSession.cs" />
+	  <Compile Include="..\NetCoreServer\UdpClient.cs" Link="UdpClient.cs" />
+	  <Compile Include="..\NetCoreServer\UdpServer.cs" Link="UdpServer.cs" />
+	  <Compile Include="..\NetCoreServer\UdsClient.cs" Link="UdsClient.cs" />
+	  <Compile Include="..\NetCoreServer\UdsServer.cs" Link="UdsServer.cs" />
+	  <Compile Include="..\NetCoreServer\UdsSession.cs" Link="UdsSession.cs" />
+	  <Compile Include="..\NetCoreServer\Utilities.cs" Link="Utilities.cs" />
+	  <Compile Include="..\NetCoreServer\WebSocket.cs" Link="WebSocket.cs" />
+	  <Compile Include="..\NetCoreServer\WsClient.cs" Link="WsClient.cs" />
+	  <Compile Include="..\NetCoreServer\WssClient.cs" Link="WssClient.cs" />
+	  <Compile Include="..\NetCoreServer\WsServer.cs" Link="WsServer.cs" />
+	  <Compile Include="..\NetCoreServer\WsSession.cs" Link="WsSession.cs" />
+	  <Compile Include="..\NetCoreServer\WssServer.cs" Link="WssServer.cs" />
+	  <Compile Include="..\NetCoreServer\WssSession.cs" Link="WssSession.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Platforms\Android\" />
+	  <Folder Include="Platforms\iOS\" />
+	  <Folder Include="Platforms\MacCatalyst\" />
+	  <Folder Include="Platforms\Tizen\" />
+	  <Folder Include="Platforms\Windows\" />
+	</ItemGroup>
+
+</Project>

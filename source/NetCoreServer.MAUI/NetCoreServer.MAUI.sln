@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34310.174
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreServer.MAUI", "NetCoreServer.MAUI.csproj", "{AD365B9E-44FC-4F68-B813-7E424184A158}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD365B9E-44FC-4F68-B813-7E424184A158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD365B9E-44FC-4F68-B813-7E424184A158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD365B9E-44FC-4F68-B813-7E424184A158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD365B9E-44FC-4F68-B813-7E424184A158}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D4CCE3C-A7D7-48C9-ADE4-7ECC7809DE06}
+	EndGlobalSection
+EndGlobal
