@@ -337,7 +337,7 @@ namespace NetCoreServer
                 return;
 
             // Try to perform WebSocket upgrade
-            if (!WebSocket.PerformClientUpgrade(response, Id))
+            if (!WebSocket.PerformClientUpgrade(response))
             {
                 base.OnReceivedResponseHeader(response);
                 return;

@@ -176,7 +176,7 @@ namespace NetCoreServer
         /// </summary>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.AppendLine($"Status: {Status}");
             sb.AppendLine($"Status phrase: {StatusPhrase}");
             sb.AppendLine($"Protocol: {Protocol}");
@@ -218,85 +218,73 @@ namespace NetCoreServer
         /// <param name="protocol">Protocol version (default is "HTTP/1.1")</param>
         public HttpResponse SetBegin(int status, string protocol = "HTTP/1.1")
         {
-            string statusPhrase;
-
-            switch (status)
+            string statusPhrase = status switch
             {
-                case 100: statusPhrase = "Continue"; break;
-                case 101: statusPhrase = "Switching Protocols"; break;
-                case 102: statusPhrase = "Processing"; break;
-                case 103: statusPhrase = "Early Hints"; break;
-
-                case 200: statusPhrase = "OK"; break;
-                case 201: statusPhrase = "Created"; break;
-                case 202: statusPhrase = "Accepted"; break;
-                case 203: statusPhrase = "Non-Authoritative Information"; break;
-                case 204: statusPhrase = "No Content"; break;
-                case 205: statusPhrase = "Reset Content"; break;
-                case 206: statusPhrase = "Partial Content"; break;
-                case 207: statusPhrase = "Multi-Status"; break;
-                case 208: statusPhrase = "Already Reported"; break;
-
-                case 226: statusPhrase = "IM Used"; break;
-
-                case 300: statusPhrase = "Multiple Choices"; break;
-                case 301: statusPhrase = "Moved Permanently"; break;
-                case 302: statusPhrase = "Found"; break;
-                case 303: statusPhrase = "See Other"; break;
-                case 304: statusPhrase = "Not Modified"; break;
-                case 305: statusPhrase = "Use Proxy"; break;
-                case 306: statusPhrase = "Switch Proxy"; break;
-                case 307: statusPhrase = "Temporary Redirect"; break;
-                case 308: statusPhrase = "Permanent Redirect"; break;
-
-                case 400: statusPhrase = "Bad Request"; break;
-                case 401: statusPhrase = "Unauthorized"; break;
-                case 402: statusPhrase = "Payment Required"; break;
-                case 403: statusPhrase = "Forbidden"; break;
-                case 404: statusPhrase = "Not Found"; break;
-                case 405: statusPhrase = "Method Not Allowed"; break;
-                case 406: statusPhrase = "Not Acceptable"; break;
-                case 407: statusPhrase = "Proxy Authentication Required"; break;
-                case 408: statusPhrase = "Request Timeout"; break;
-                case 409: statusPhrase = "Conflict"; break;
-                case 410: statusPhrase = "Gone"; break;
-                case 411: statusPhrase = "Length Required"; break;
-                case 412: statusPhrase = "Precondition Failed"; break;
-                case 413: statusPhrase = "Payload Too Large"; break;
-                case 414: statusPhrase = "URI Too Long"; break;
-                case 415: statusPhrase = "Unsupported Media Type"; break;
-                case 416: statusPhrase = "Range Not Satisfiable"; break;
-                case 417: statusPhrase = "Expectation Failed"; break;
-
-                case 421: statusPhrase = "Misdirected Request"; break;
-                case 422: statusPhrase = "Unprocessable Entity"; break;
-                case 423: statusPhrase = "Locked"; break;
-                case 424: statusPhrase = "Failed Dependency"; break;
-                case 425: statusPhrase = "Too Early"; break;
-                case 426: statusPhrase = "Upgrade Required"; break;
-                case 427: statusPhrase = "Unassigned"; break;
-                case 428: statusPhrase = "Precondition Required"; break;
-                case 429: statusPhrase = "Too Many Requests"; break;
-                case 431: statusPhrase = "Request Header Fields Too Large"; break;
-
-                case 451: statusPhrase = "Unavailable For Legal Reasons"; break;
-
-                case 500: statusPhrase = "Internal Server Error"; break;
-                case 501: statusPhrase = "Not Implemented"; break;
-                case 502: statusPhrase = "Bad Gateway"; break;
-                case 503: statusPhrase = "Service Unavailable"; break;
-                case 504: statusPhrase = "Gateway Timeout"; break;
-                case 505: statusPhrase = "HTTP Version Not Supported"; break;
-                case 506: statusPhrase = "Variant Also Negotiates"; break;
-                case 507: statusPhrase = "Insufficient Storage"; break;
-                case 508: statusPhrase = "Loop Detected"; break;
-
-                case 510: statusPhrase = "Not Extended"; break;
-                case 511: statusPhrase = "Network Authentication Required"; break;
-
-                default: statusPhrase = "Unknown"; break;
-            }
-
+                100 => "Continue",
+                101 => "Switching Protocols",
+                102 => "Processing",
+                103 => "Early Hints",
+                200 => "OK",
+                201 => "Created",
+                202 => "Accepted",
+                203 => "Non-Authoritative Information",
+                204 => "No Content",
+                205 => "Reset Content",
+                206 => "Partial Content",
+                207 => "Multi-Status",
+                208 => "Already Reported",
+                226 => "IM Used",
+                300 => "Multiple Choices",
+                301 => "Moved Permanently",
+                302 => "Found",
+                303 => "See Other",
+                304 => "Not Modified",
+                305 => "Use Proxy",
+                306 => "Switch Proxy",
+                307 => "Temporary Redirect",
+                308 => "Permanent Redirect",
+                400 => "Bad Request",
+                401 => "Unauthorized",
+                402 => "Payment Required",
+                403 => "Forbidden",
+                404 => "Not Found",
+                405 => "Method Not Allowed",
+                406 => "Not Acceptable",
+                407 => "Proxy Authentication Required",
+                408 => "Request Timeout",
+                409 => "Conflict",
+                410 => "Gone",
+                411 => "Length Required",
+                412 => "Precondition Failed",
+                413 => "Payload Too Large",
+                414 => "URI Too Long",
+                415 => "Unsupported Media Type",
+                416 => "Range Not Satisfiable",
+                417 => "Expectation Failed",
+                421 => "Misdirected Request",
+                422 => "Unprocessable Entity",
+                423 => "Locked",
+                424 => "Failed Dependency",
+                425 => "Too Early",
+                426 => "Upgrade Required",
+                427 => "Unassigned",
+                428 => "Precondition Required",
+                429 => "Too Many Requests",
+                431 => "Request Header Fields Too Large",
+                451 => "Unavailable For Legal Reasons",
+                500 => "Internal Server Error",
+                501 => "Not Implemented",
+                502 => "Bad Gateway",
+                503 => "Service Unavailable",
+                504 => "Gateway Timeout",
+                505 => "HTTP Version Not Supported",
+                506 => "Variant Also Negotiates",
+                507 => "Insufficient Storage",
+                508 => "Loop Detected",
+                510 => "Not Extended",
+                511 => "Network Authentication Required",
+                _ => "Unknown",
+            };
             SetBegin(status, statusPhrase, protocol);
             return this;
         }
@@ -658,7 +646,7 @@ namespace NetCoreServer
         // HTTP response protocol
         private string _protocol;
         // HTTP response headers
-        private List<(string, string)> _headers = new List<(string, string)>();
+        private readonly List<(string, string)> _headers = [];
         // HTTP response body
         private int _bodyIndex;
         private int _bodySize;
@@ -666,7 +654,7 @@ namespace NetCoreServer
         private bool _bodyLengthProvided;
 
         // HTTP response cache
-        private Buffer _cache = new Buffer();
+        private readonly Buffer _cache = new();
         private int _cacheSize;
 
         // HTTP response mime table

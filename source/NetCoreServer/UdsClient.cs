@@ -10,32 +10,27 @@ namespace NetCoreServer
     /// Unix Domain Socket client is used to read/write data from/into the connected Unix Domain Socket server
     /// </summary>
     /// <remarks>Thread-safe</remarks>
-    public class UdsClient : IDisposable
+    /// <remarks>
+    /// Initialize Unix Domain Socket client with a given Unix Domain Socket endpoint
+    /// </remarks>
+    /// <param name="endpoint">Unix Domain Socket endpoint</param>
+    public class UdsClient(UnixDomainSocketEndPoint endpoint) : IDisposable
     {
         /// <summary>
         /// Initialize Unix Domain Socket client with a given socket path
         /// </summary>
         /// <param name="path">Socket path</param>
         public UdsClient(string path) : this(new UnixDomainSocketEndPoint(path)) {}
-        /// <summary>
-        /// Initialize Unix Domain Socket client with a given Unix Domain Socket endpoint
-        /// </summary>
-        /// <param name="endpoint">Unix Domain Socket endpoint</param>
-        public UdsClient(UnixDomainSocketEndPoint endpoint)
-        {
-            Id = Guid.NewGuid();
-            Endpoint = endpoint;
-        }
 
         /// <summary>
         /// Client Id
         /// </summary>
-        public Guid Id { get; }
+        public Guid Id { get; } = Guid.NewGuid();
 
         /// <summary>
         /// Endpoint
         /// </summary>
-        public EndPoint Endpoint { get; private set; }
+        public EndPoint Endpoint { get; private set; } = endpoint;
         /// <summary>
         /// Socket
         /// </summary>
@@ -119,8 +114,7 @@ namespace NetCoreServer
             _sendBufferFlush = new Buffer();
 
             // Setup event args
-            _connectEventArg = new SocketAsyncEventArgs();
-            _connectEventArg.RemoteEndPoint = Endpoint;
+            _connectEventArg = new SocketAsyncEventArgs { RemoteEndPoint = Endpoint };
             _connectEventArg.Completed += OnAsyncCompleted;
             _receiveEventArg = new SocketAsyncEventArgs();
             _receiveEventArg.Completed += OnAsyncCompleted;
@@ -284,8 +278,7 @@ namespace NetCoreServer
             _sendBufferFlush = new Buffer();
 
             // Setup event args
-            _connectEventArg = new SocketAsyncEventArgs();
-            _connectEventArg.RemoteEndPoint = Endpoint;
+            _connectEventArg = new SocketAsyncEventArgs { RemoteEndPoint = Endpoint };
             _connectEventArg.Completed += OnAsyncCompleted;
             _receiveEventArg = new SocketAsyncEventArgs();
             _receiveEventArg.Completed += OnAsyncCompleted;
@@ -341,7 +334,7 @@ namespace NetCoreServer
         private Buffer _receiveBuffer;
         private SocketAsyncEventArgs _receiveEventArg;
         // Send buffer
-        private readonly object _sendLock = new object();
+        private readonly object _sendLock = new();
         private bool _sending;
         private Buffer _sendBufferMain;
         private Buffer _sendBufferFlush;

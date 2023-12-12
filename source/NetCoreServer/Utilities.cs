@@ -56,7 +56,7 @@ namespace NetCoreServer
             else if (absBytes >= 1024)
             {
                 long kb = bytes / 1024;
-                bytes = bytes % 1024;
+                bytes %= 1024;
                 sb.Append(kb);
                 sb.Append('.');
                 sb.Append((bytes < 100) ? "0" : "");
@@ -144,7 +144,7 @@ namespace NetCoreServer
             else if (absNanoseconds >= 1000)
             {
                 long microseconds = nanoseconds / 1000;
-                nanoseconds = nanoseconds % 1000;
+                nanoseconds %= 1000;
                 sb.Append(microseconds);
                 sb.Append('.');
                 sb.Append((nanoseconds < 100) ? "0" : "");

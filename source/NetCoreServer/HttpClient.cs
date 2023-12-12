@@ -299,8 +299,7 @@ namespace NetCoreServer
             }
 
             // Create a new timeout timer
-            if (_timer == null)
-                _timer = new Timer(TimeoutHandler, null, Timeout.Infinite, Timeout.Infinite);
+            _timer ??= new Timer(TimeoutHandler, null, Timeout.Infinite, Timeout.Infinite);
 
             // Start the timeout timer
             _timer.Change((int)timeout.Value.TotalMilliseconds, Timeout.Infinite);
@@ -398,7 +397,7 @@ namespace NetCoreServer
 
         #endregion
 
-        private TaskCompletionSource<HttpResponse> _tcs = new TaskCompletionSource<HttpResponse>();
+        private TaskCompletionSource<HttpResponse> _tcs = new();
         private Timer _timer;
 
         private void SetPromiseValue(HttpResponse response)

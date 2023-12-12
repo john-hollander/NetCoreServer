@@ -49,7 +49,7 @@ namespace NetCoreServer
         {
             timeout ??= TimeSpan.FromHours(1);
 
-            bool Handler(FileCache cache, string key, byte[] value, TimeSpan timespan)
+            static bool Handler(FileCache cache, string key, byte[] value, TimeSpan timespan)
             {
                 var response = new HttpResponse();
                 response.SetBegin(200);

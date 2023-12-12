@@ -12,32 +12,27 @@ namespace NetCoreServer
     /// Unix Domain Socket server is used to connect, disconnect and manage Unix Domain Socket sessions
     /// </summary>
     /// <remarks>Thread-safe</remarks>
-    public class UdsServer : IDisposable
+    /// <remarks>
+    /// Initialize Unix Domain Socket server with a given Unix Domain Socket endpoint
+    /// </remarks>
+    /// <param name="endpoint">Unix Domain Socket endpoint</param>
+    public class UdsServer(UnixDomainSocketEndPoint endpoint) : IDisposable
     {
         /// <summary>
         /// Initialize Unix Domain Socket server with a given socket path
         /// </summary>
         /// <param name="path">Socket path</param>
         public UdsServer(string path) : this(new UnixDomainSocketEndPoint(path)) {}
-        /// <summary>
-        /// Initialize Unix Domain Socket server with a given Unix Domain Socket endpoint
-        /// </summary>
-        /// <param name="endpoint">Unix Domain Socket endpoint</param>
-        public UdsServer(UnixDomainSocketEndPoint endpoint)
-        {
-            Id = Guid.NewGuid();
-            Endpoint = endpoint;
-        }
 
         /// <summary>
         /// Server Id
         /// </summary>
-        public Guid Id { get; }
+        public Guid Id { get; } = Guid.NewGuid();
 
         /// <summary>
         /// Endpoint
         /// </summary>
-        public EndPoint Endpoint { get; private set; }
+        public EndPoint Endpoint { get; private set; } = endpoint;
 
         /// <summary>
         /// Number of sessions connected to the server
@@ -283,7 +278,7 @@ namespace NetCoreServer
         #region Session management
 
         // Server sessions
-        protected readonly ConcurrentDictionary<Guid, UdsSession> Sessions = new ConcurrentDictionary<Guid, UdsSession>();
+        protected readonly ConcurrentDictionary<Guid, UdsSession> Sessions = new();
 
         /// <summary>
         /// Disconnect all connected sessions

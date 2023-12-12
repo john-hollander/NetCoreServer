@@ -1,34 +1,26 @@
-﻿using System;
-
-namespace NetCoreServer
+﻿namespace NetCoreServer
 {
     /// <summary>
     /// HTTPS session is used to receive/send HTTP requests/responses from the connected HTTPS client.
     /// </summary>
     /// <remarks>Thread-safe.</remarks>
-    public class HttpsSession : SslSession
+    public class HttpsSession(HttpsServer server) : SslSession(server)
     {
-        public HttpsSession(HttpsServer server) : base(server)
-        {
-            Cache = server.Cache;
-            Request = new HttpRequest();
-            Response = new HttpResponse();
-        }
 
         /// <summary>
         /// Get the static content cache
         /// </summary>
-        public FileCache Cache { get; }
+        public FileCache Cache { get; } = server.Cache;
 
         /// <summary>
         /// Get the HTTP request
         /// </summary>
-        protected HttpRequest Request { get; }
+        protected HttpRequest Request { get; } = new HttpRequest();
 
         /// <summary>
         /// Get the HTTP response
         /// </summary>
-        public HttpResponse Response { get; }
+        public HttpResponse Response { get; } = new HttpResponse();
 
         #region Send response / Send response body
 
@@ -221,7 +213,7 @@ namespace NetCoreServer
             if (request.Method == "GET")
             {
                 var index = request.Url.IndexOf('?');
-                var response = Cache.Find((index < 0) ? request.Url : request.Url.Substring(0, index));
+                var response = Cache.Find((index < 0) ? request.Url : request.Url[..index]);
                 if (response.Item1)
                 {
                     // Process the request with the cached response

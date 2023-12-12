@@ -9,29 +9,21 @@ namespace NetCoreServer
     /// TCP session is used to read and write data from the connected TCP client
     /// </summary>
     /// <remarks>Thread-safe</remarks>
-    public class TcpSession : IDisposable
+    /// <remarks>
+    /// Initialize the session with a given server
+    /// </remarks>
+    /// <param name="server">TCP server</param>
+    public class TcpSession(TcpServer server) : IDisposable
     {
-        /// <summary>
-        /// Initialize the session with a given server
-        /// </summary>
-        /// <param name="server">TCP server</param>
-        public TcpSession(TcpServer server)
-        {
-            Id = Guid.NewGuid();
-            Server = server;
-            OptionReceiveBufferSize = server.OptionReceiveBufferSize;
-            OptionSendBufferSize = server.OptionSendBufferSize;
-        }
-
         /// <summary>
         /// Session Id
         /// </summary>
-        public Guid Id { get; }
+        public Guid Id { get; } = Guid.NewGuid();
 
         /// <summary>
         /// Server
         /// </summary>
-        public TcpServer Server { get; }
+        public TcpServer Server { get; } = server;
         /// <summary>
         /// Socket
         /// </summary>
@@ -61,7 +53,7 @@ namespace NetCoreServer
         /// <summary>
         /// Option: receive buffer size
         /// </summary>
-        public int OptionReceiveBufferSize { get; set; } = 8192;
+        public int OptionReceiveBufferSize { get; set; } = server.OptionReceiveBufferSize;
         /// <summary>
         /// Option: send buffer limit
         /// </summary>
@@ -69,7 +61,7 @@ namespace NetCoreServer
         /// <summary>
         /// Option: send buffer size
         /// </summary>
-        public int OptionSendBufferSize { get; set; } = 8192;
+        public int OptionSendBufferSize { get; set; } = server.OptionSendBufferSize;
 
         #region Connect/Disconnect session
 
@@ -225,7 +217,7 @@ namespace NetCoreServer
         private Buffer _receiveBuffer;
         private SocketAsyncEventArgs _receiveEventArg;
         // Send buffer
-        private readonly object _sendLock = new object();
+        private readonly object _sendLock = new();
         private bool _sending;
         private Buffer _sendBufferMain;
         private Buffer _sendBufferFlush;

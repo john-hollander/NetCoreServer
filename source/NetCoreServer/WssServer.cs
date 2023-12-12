@@ -45,7 +45,7 @@ namespace NetCoreServer
         {
             lock (WebSocket.WsSendLock)
             {
-                WebSocket.PrepareSendFrame(WebSocket.WS_FIN | WebSocket.WS_CLOSE, false, Span<byte>.Empty, status);
+                WebSocket.PrepareSendFrame(WebSocket.WS_FIN | WebSocket.WS_CLOSE, false, [], status);
                 if (!Multicast(WebSocket.WsSendBuffer.AsSpan()))
                     return false;
 

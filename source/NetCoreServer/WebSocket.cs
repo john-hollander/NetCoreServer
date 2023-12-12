@@ -1,8 +1,5 @@
-﻿using System;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Security.Cryptography;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace NetCoreServer
 {
@@ -44,9 +41,8 @@ namespace NetCoreServer
         /// Perform WebSocket client upgrade
         /// </summary>
         /// <param name="response">WebSocket upgrade HTTP response</param>
-        /// <param name="id">WebSocket client Id</param>
         /// <returns>'true' if the WebSocket was successfully upgrade, 'false' if the WebSocket was not upgrade</returns>
-        public bool PerformClientUpgrade(HttpResponse response, Guid id)
+        public bool PerformClientUpgrade(HttpResponse response)
         {
             if (response.Status != 101)
                 return false;
@@ -90,10 +86,7 @@ namespace NetCoreServer
                     // Calculate the original WebSocket hash
                     string wskey = Convert.ToBase64String(WsNonce) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
                     string wshash;
-                    using (SHA1 sha1 = SHA1.Create())
-                    {
-                        wshash = Encoding.UTF8.GetString(sha1.ComputeHash(Encoding.UTF8.GetBytes(wskey)));
-                    }
+                    wshash = Encoding.UTF8.GetString(SHA1.HashData(Encoding.UTF8.GetBytes(wskey)));
 
                     // Get the received WebSocket hash
                     wskey = Encoding.UTF8.GetString(Convert.FromBase64String(value));
@@ -186,10 +179,7 @@ namespace NetCoreServer
                     // Calculate the original WebSocket hash
                     string wskey = value + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
                     byte[] wshash;
-                    using (SHA1 sha1 = SHA1.Create())
-                    {
-                        wshash = sha1.ComputeHash(Encoding.UTF8.GetBytes(wskey));
-                    }
+                    wshash = SHA1.HashData(Encoding.UTF8.GetBytes(wskey));
 
                     accept = Convert.ToBase64String(wshash);
 
@@ -601,15 +591,15 @@ namespace NetCoreServer
         /// <summary>
         /// Receive buffer lock
         /// </summary>
-        internal readonly object WsReceiveLock = new object();
+        internal readonly object WsReceiveLock = new();
         /// <summary>
         /// Receive frame buffer
         /// </summary>
-        internal readonly Buffer WsReceiveFrameBuffer = new Buffer();
+        internal readonly Buffer WsReceiveFrameBuffer = new();
         /// <summary>
         /// Receive final buffer
         /// </summary>
-        internal readonly Buffer WsReceiveFinalBuffer = new Buffer();
+        internal readonly Buffer WsReceiveFinalBuffer = new();
         /// <summary>
         /// Receive mask
         /// </summary>
@@ -618,11 +608,11 @@ namespace NetCoreServer
         /// <summary>
         /// Send buffer lock
         /// </summary>
-        internal readonly object WsSendLock = new object();
+        internal readonly object WsSendLock = new();
         /// <summary>
         /// Send buffer
         /// </summary>
-        internal readonly Buffer WsSendBuffer = new Buffer();
+        internal readonly Buffer WsSendBuffer = new();
         /// <summary>
         /// Send mask
         /// </summary>
@@ -631,7 +621,7 @@ namespace NetCoreServer
         /// <summary>
         /// WebSocket random generator
         /// </summary>
-        internal readonly Random WsRandom = new Random();
+        internal readonly Random WsRandom = new();
         /// <summary>
         /// WebSocket random nonce of 16 bytes
         /// </summary>

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
+﻿using System.Text;
 using System.Web;
+
+#pragma warning disable IDE0060 // Remove unused parameter
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
 
 namespace NetCoreServer
 {
@@ -61,7 +60,7 @@ namespace NetCoreServer
             {
                 // Try to find the given key
                 if (!_entriesByKey.TryGetValue(key, out var cacheValue))
-                    return (false, new byte[0]);
+                    return (false, Array.Empty<byte>());
 
                 return (true, cacheValue.Value);
             }
@@ -105,7 +104,7 @@ namespace NetCoreServer
                 // Add the given path to the cache
                 _pathsByKey.Add(path, new FileCacheEntry(this, prefix, path, filter, handler, timeout));
                 // Create entries by path map
-                _entriesByPath[path] = new HashSet<string>();
+                _entriesByPath[path] = [];
             }
 
             // Insert the cache path
@@ -161,10 +160,10 @@ namespace NetCoreServer
 
         #region Cache implementation
 
-        private readonly ReaderWriterLockSlim _lockEx = new ReaderWriterLockSlim();
-        private Dictionary<string, MemCacheEntry> _entriesByKey = new Dictionary<string, MemCacheEntry>();
-        private Dictionary<string, HashSet<string>> _entriesByPath = new Dictionary<string, HashSet<string>>();
-        private Dictionary<string, FileCacheEntry> _pathsByKey = new Dictionary<string, FileCacheEntry>();
+        private readonly ReaderWriterLockSlim _lockEx = new();
+        private readonly Dictionary<string, MemCacheEntry> _entriesByKey = [];
+        private readonly Dictionary<string, HashSet<string>> _entriesByPath = [];
+        private readonly Dictionary<string, FileCacheEntry> _pathsByKey = [];
 
         private class MemCacheEntry
         {
@@ -276,8 +275,6 @@ namespace NetCoreServer
             private static void OnDeleted(object sender, FileSystemEventArgs e, FileCache cache, FileCacheEntry entry)
             {
                 var key = e.FullPath.Replace('\\', '/').Replace(entry._path + "/", entry._prefix);
-                var file = e.FullPath.Replace('\\', '/');
-
                 cache.RemoveFileInternal(entry._path, key);
             }
 
@@ -439,14 +436,9 @@ namespace NetCoreServer
     /// <summary>
     /// Disposable lock class performs exit action on dispose operation.
     /// </summary>
-    public class DisposableLock : IDisposable
+    public class DisposableLock(Action exitLock) : IDisposable
     {
-        private readonly Action _exitLock;
-
-        public DisposableLock(Action exitLock)
-        {
-            _exitLock = exitLock;
-        }
+        private readonly Action _exitLock = exitLock;
 
         public void Dispose()
         {

@@ -107,7 +107,7 @@ namespace NetCoreServer
         /// </summary>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.AppendLine($"Request method: {Method}");
             sb.AppendLine($"Request URL: {Url}");
             sb.AppendLine($"Request protocol: {Protocol}");
@@ -483,9 +483,9 @@ namespace NetCoreServer
         // HTTP request protocol
         private string _protocol;
         // HTTP request headers
-        private List<(string, string)> _headers = new List<(string, string)>();
+        private readonly List<(string, string)> _headers = [];
         // HTTP request cookies
-        private List<(string, string)> _cookies = new List<(string, string)>();
+        private readonly List<(string, string)> _cookies = [];
         // HTTP request body
         private int _bodyIndex;
         private int _bodySize;
@@ -493,7 +493,7 @@ namespace NetCoreServer
         private bool _bodyLengthProvided;
 
         // HTTP request cache
-        private Buffer _cache = new Buffer();
+        private readonly Buffer _cache = new();
         private int _cacheSize;
 
         // Is pending parts of HTTP request
@@ -717,7 +717,7 @@ namespace NetCoreServer
                                             // Add the cookie to the corresponding collection
                                             _cookies.Add((_cache.ExtractString(nameIndex, nameSize), _cache.ExtractString(cookieIndex, cookieSize)));
 
-                                            // Resset the current cookie values
+                                            // Reset the current cookie values
                                             nameIndex = j;
                                             nameSize = 0;
                                             cookieIndex = j;

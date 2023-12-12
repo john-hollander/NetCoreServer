@@ -42,7 +42,7 @@ namespace NetCoreServer
         /// <summary>
         /// Initialize a new expandable buffer with zero capacity
         /// </summary>
-        public Buffer() { _data = new byte[0]; _size = 0; _offset = 0; }
+        public Buffer() { _data = []; _size = 0; _offset = 0; }
         /// <summary>
         /// Initialize a new expandable buffer with the given capacity
         /// </summary>
