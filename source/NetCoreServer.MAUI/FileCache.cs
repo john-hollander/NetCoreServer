@@ -200,7 +200,9 @@ namespace NetCoreServer
                 _path = path.Replace('\\', '/').RemoveSuffix('/');
                 _handler = handler;
                 _timespan = timespan;
-                _watcher = new FileSystemWatcher();
+
+                if (!OperatingSystem.IsIOS())
+                    _watcher = new FileSystemWatcher();
 
                 // Start the filesystem watcher
                 StartWatcher(cache, path, filter);
@@ -208,6 +210,9 @@ namespace NetCoreServer
             private void StartWatcher(FileCache cache, string path, string filter)
             {
                 FileCacheEntry entry = this;
+
+                if (OperatingSystem.IsIOS())
+                    return;
 
                 // Initialize a new filesystem watcher
                 _watcher.Created += (sender, e) => OnCreated(sender, e, cache, entry);
@@ -241,6 +246,9 @@ namespace NetCoreServer
 
             private static void OnCreated(object sender, FileSystemEventArgs e, FileCache cache, FileCacheEntry entry)
             {
+                if (OperatingSystem.IsIOS())
+                    return;
+
                 var key = e.FullPath.Replace('\\', '/').Replace(entry._path, entry._prefix).RemoveSuffix('/');
                 var file = e.FullPath.Replace('\\', '/').RemoveSuffix('/');
 
@@ -256,6 +264,9 @@ namespace NetCoreServer
 
             private static void OnChanged(object sender, FileSystemEventArgs e, FileCache cache, FileCacheEntry entry)
             {
+                if (OperatingSystem.IsIOS())
+                    return;
+
                 if (e.ChangeType != WatcherChangeTypes.Changed)
                     return;
 
@@ -274,12 +285,18 @@ namespace NetCoreServer
 
             private static void OnDeleted(object sender, FileSystemEventArgs e, FileCache cache, FileCacheEntry entry)
             {
+                if (OperatingSystem.IsIOS())
+                    return;
+
                 var key = e.FullPath.Replace('\\', '/').Replace(entry._path, entry._prefix).RemoveSuffix('/');
                 cache.RemoveFileInternal(entry._path, key);
             }
 
             private static void OnRenamed(object sender, RenamedEventArgs e, FileCache cache, FileCacheEntry entry)
             {
+                if (OperatingSystem.IsIOS())
+                    return;
+
                 var oldKey = e.OldFullPath.Replace('\\', '/').Replace(entry._path, entry._prefix).RemoveSuffix('/');
                 var oldFile = e.OldFullPath.Replace('\\', '/').RemoveSuffix('/');
                 var newKey = e.FullPath.Replace('\\', '/').Replace(entry._path, entry._prefix).RemoveSuffix('/');
