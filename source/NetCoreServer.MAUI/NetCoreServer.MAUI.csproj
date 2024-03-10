@@ -6,6 +6,7 @@
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 		<UseMaui>true</UseMaui>
+		<MauiVersion>8.0.7</MauiVersion>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
@@ -28,36 +29,36 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Include="..\NetCoreServer\Buffer.cs" Link="Buffer.cs" />
-	  <Compile Include="..\NetCoreServer\HttpClient.cs" Link="HttpClient.cs" />
-	  <Compile Include="..\NetCoreServer\HttpRequest.cs" Link="HttpRequest.cs" />
-	  <Compile Include="..\NetCoreServer\HttpResponse.cs" Link="HttpResponse.cs" />
-	  <Compile Include="..\NetCoreServer\HttpsClient.cs" Link="HttpsClient.cs" />
-	  <Compile Include="..\NetCoreServer\HttpServer.cs" Link="HttpServer.cs" />
-	  <Compile Include="..\NetCoreServer\HttpSession.cs" Link="HttpSession.cs" />
-	  <Compile Include="..\NetCoreServer\HttpsServer.cs" Link="HttpsServer.cs" />
-	  <Compile Include="..\NetCoreServer\HttpsSession.cs" Link="HttpsSession.cs" />
-	  <Compile Include="..\NetCoreServer\IWebSocket.cs" Link="IWebSocket.cs" />
-	  <Compile Include="..\NetCoreServer\SslClient.cs" Link="SslClient.cs" />
-	  <Compile Include="..\NetCoreServer\SslContext.cs" Link="SslContext.cs" />
-	  <Compile Include="..\NetCoreServer\SslServer.cs" Link="SslServer.cs" />
-	  <Compile Include="..\NetCoreServer\SslSession.cs" Link="SslSession.cs" />
-	  <Compile Include="..\NetCoreServer\TcpClient.cs" Link="TcpClient.cs" />
-	  <Compile Include="..\NetCoreServer\TcpServer.cs" Link="TcpServer.cs" />
-	  <Compile Include="..\NetCoreServer\TcpSession.cs" Link="TcpSession.cs" />
-	  <Compile Include="..\NetCoreServer\UdpClient.cs" Link="UdpClient.cs" />
-	  <Compile Include="..\NetCoreServer\UdpServer.cs" Link="UdpServer.cs" />
-	  <Compile Include="..\NetCoreServer\UdsClient.cs" Link="UdsClient.cs" />
-	  <Compile Include="..\NetCoreServer\UdsServer.cs" Link="UdsServer.cs" />
-	  <Compile Include="..\NetCoreServer\UdsSession.cs" Link="UdsSession.cs" />
-	  <Compile Include="..\NetCoreServer\Utilities.cs" Link="Utilities.cs" />
-	  <Compile Include="..\NetCoreServer\WebSocket.cs" Link="WebSocket.cs" />
-	  <Compile Include="..\NetCoreServer\WsClient.cs" Link="WsClient.cs" />
-	  <Compile Include="..\NetCoreServer\WssClient.cs" Link="WssClient.cs" />
-	  <Compile Include="..\NetCoreServer\WsServer.cs" Link="WsServer.cs" />
-	  <Compile Include="..\NetCoreServer\WsSession.cs" Link="WsSession.cs" />
-	  <Compile Include="..\NetCoreServer\WssServer.cs" Link="WssServer.cs" />
-	  <Compile Include="..\NetCoreServer\WssSession.cs" Link="WssSession.cs" />
+		<Compile Include="..\NetCoreServer\Buffer.cs" Link="Buffer.cs" />
+		<Compile Include="..\NetCoreServer\HttpClient.cs" Link="HttpClient.cs" />
+		<Compile Include="..\NetCoreServer\HttpRequest.cs" Link="HttpRequest.cs" />
+		<Compile Include="..\NetCoreServer\HttpResponse.cs" Link="HttpResponse.cs" />
+		<Compile Include="..\NetCoreServer\HttpsClient.cs" Link="HttpsClient.cs" />
+		<Compile Include="..\NetCoreServer\HttpServer.cs" Link="HttpServer.cs" />
+		<Compile Include="..\NetCoreServer\HttpSession.cs" Link="HttpSession.cs" />
+		<Compile Include="..\NetCoreServer\HttpsServer.cs" Link="HttpsServer.cs" />
+		<Compile Include="..\NetCoreServer\HttpsSession.cs" Link="HttpsSession.cs" />
+		<Compile Include="..\NetCoreServer\IWebSocket.cs" Link="IWebSocket.cs" />
+		<Compile Include="..\NetCoreServer\SslClient.cs" Link="SslClient.cs" />
+		<Compile Include="..\NetCoreServer\SslContext.cs" Link="SslContext.cs" />
+		<Compile Include="..\NetCoreServer\SslServer.cs" Link="SslServer.cs" />
+		<Compile Include="..\NetCoreServer\SslSession.cs" Link="SslSession.cs" />
+		<Compile Include="..\NetCoreServer\TcpClient.cs" Link="TcpClient.cs" />
+		<Compile Include="..\NetCoreServer\TcpServer.cs" Link="TcpServer.cs" />
+		<Compile Include="..\NetCoreServer\TcpSession.cs" Link="TcpSession.cs" />
+		<Compile Include="..\NetCoreServer\UdpClient.cs" Link="UdpClient.cs" />
+		<Compile Include="..\NetCoreServer\UdpServer.cs" Link="UdpServer.cs" />
+		<Compile Include="..\NetCoreServer\UdsClient.cs" Link="UdsClient.cs" />
+		<Compile Include="..\NetCoreServer\UdsServer.cs" Link="UdsServer.cs" />
+		<Compile Include="..\NetCoreServer\UdsSession.cs" Link="UdsSession.cs" />
+		<Compile Include="..\NetCoreServer\Utilities.cs" Link="Utilities.cs" />
+		<Compile Include="..\NetCoreServer\WebSocket.cs" Link="WebSocket.cs" />
+		<Compile Include="..\NetCoreServer\WsClient.cs" Link="WsClient.cs" />
+		<Compile Include="..\NetCoreServer\WssClient.cs" Link="WssClient.cs" />
+		<Compile Include="..\NetCoreServer\WsServer.cs" Link="WsServer.cs" />
+		<Compile Include="..\NetCoreServer\WsSession.cs" Link="WsSession.cs" />
+		<Compile Include="..\NetCoreServer\WssServer.cs" Link="WssServer.cs" />
+		<Compile Include="..\NetCoreServer\WssSession.cs" Link="WssSession.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,11 +67,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Platforms\Android\" />
-	  <Folder Include="Platforms\iOS\" />
-	  <Folder Include="Platforms\MacCatalyst\" />
-	  <Folder Include="Platforms\Tizen\" />
-	  <Folder Include="Platforms\Windows\" />
+		<Folder Include="Platforms\Android\" />
+		<Folder Include="Platforms\iOS\" />
+		<Folder Include="Platforms\MacCatalyst\" />
+		<Folder Include="Platforms\Tizen\" />
+		<Folder Include="Platforms\Windows\" />
 	</ItemGroup>
 
 </Project>
