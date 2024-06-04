@@ -60,7 +60,7 @@ namespace NetCoreServer
             {
                 // Try to find the given key
                 if (!_entriesByKey.TryGetValue(key, out var cacheValue))
-                    return (false, Array.Empty<byte>());
+                    return (false, []);
 
                 return (true, cacheValue.Value);
             }
