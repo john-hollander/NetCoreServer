@@ -28,6 +28,10 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<NoWarn>CS7038,CsWinRT1028,CsWinRT1029,CsWinRT1030</NoWarn>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<Compile Include="..\NetCoreServer\Buffer.cs" Link="Buffer.cs" />
 		<Compile Include="..\NetCoreServer\HttpClient.cs" Link="HttpClient.cs" />

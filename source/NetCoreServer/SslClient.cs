@@ -304,7 +304,7 @@ namespace NetCoreServer
                 if (Context.Certificates != null)
                     _sslStream.AuthenticateAsClient(Address, Context.Certificates, Context.Protocols, true);
                 else if (Context.Certificate != null)
-                    _sslStream.AuthenticateAsClient(Address, new X509CertificateCollection(new[] { Context.Certificate }), Context.Protocols, true);
+                    _sslStream.AuthenticateAsClient(Address, [.. new[] { Context.Certificate }], Context.Protocols, true);
                 else
                     _sslStream.AuthenticateAsClient(Address);
             }
@@ -879,7 +879,7 @@ namespace NetCoreServer
                     if (Context.Certificates != null)
                         _sslStream.BeginAuthenticateAsClient(Address, Context.Certificates, Context.Protocols, true, ProcessHandshake, _sslStreamId);
                     else if (Context.Certificate != null)
-                        _sslStream.BeginAuthenticateAsClient(Address, new X509CertificateCollection(new[] { Context.Certificate }), Context.Protocols, true, ProcessHandshake, _sslStreamId);
+                        _sslStream.BeginAuthenticateAsClient(Address, [.. new[] { Context.Certificate }], Context.Protocols, true, ProcessHandshake, _sslStreamId);
                     else
                         _sslStream.BeginAuthenticateAsClient(Address, ProcessHandshake, _sslStreamId);
                 }
