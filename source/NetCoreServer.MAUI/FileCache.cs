@@ -2,7 +2,6 @@
 using System.Web;
 
 #pragma warning disable IDE0060 // Remove unused parameter
-#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize
 
 namespace NetCoreServer
 {
@@ -458,6 +457,7 @@ namespace NetCoreServer
         public void Dispose()
         {
             _exitLock();
+            GC.SuppressFinalize(this);
         }
     }
 
