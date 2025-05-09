@@ -93,7 +93,7 @@ namespace NetCoreServer
         /// <returns>'true' if the cache path was setup, 'false' if failed to setup the cache path</returns>
         public bool InsertPath(string path, string prefix = "/", string filter = "*.*", TimeSpan timeout = new TimeSpan(), InsertHandler handler = null)
         {
-            handler ??= (FileCache cache, string key, byte[] value, TimeSpan timespan) => cache.Add(key, value, timespan);
+            handler ??= (cache, key, value, timespan) => cache.Add(key, value, timespan);
 
             // Try to find and remove the previous path
             RemovePathInternal(path);
