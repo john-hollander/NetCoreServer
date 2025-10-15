@@ -245,7 +245,7 @@ namespace NetCoreServer
         private bool _receiving;
         private Buffer _receiveBuffer;
         // Send buffer
-        private readonly object _sendLock = new();
+        private readonly Lock _sendLock = new();
         private bool _sending;
         private Buffer _sendBufferMain;
         private Buffer _sendBufferFlush;
@@ -347,7 +347,7 @@ namespace NetCoreServer
             if (buffer.IsEmpty)
                 return true;
 
-            lock (_sendLock)
+            using (_sendLock.EnterScope())
             {
                 // Check the send buffer limit
                 if (((_sendBufferMain.Size + buffer.Length) > OptionSendBufferLimit) && (OptionSendBufferLimit > 0))
@@ -493,7 +493,7 @@ namespace NetCoreServer
 
             bool empty = false;
 
-            lock (_sendLock)
+            using (_sendLock.EnterScope())
             {
                 // Is previous socket send in progress?
                 if (_sendBufferFlush.IsEmpty)
@@ -540,7 +540,7 @@ namespace NetCoreServer
         /// </summary>
         private void ClearBuffers()
         {
-            lock (_sendLock)
+            using (_sendLock.EnterScope())
             {
                 // Clear send buffers
                 _sendBufferMain.Clear();

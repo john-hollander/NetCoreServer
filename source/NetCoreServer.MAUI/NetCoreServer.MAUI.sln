@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34310.174
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreServer.MAUI", "NetCoreServer.MAUI.csproj", "{AD365B9E-44FC-4F68-B813-7E424184A158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreServer.MAUI", "NetCoreServer.MAUI.csproj", "{AD365B9E-44FC-4F68-B813-7E424184A158}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
