@@ -6,7 +6,7 @@
     <!-- <TargetFrameworks>$(TargetFrameworks);net10.0-tizen</TargetFrameworks> -->
     <UseMaui>true</UseMaui>
     <RootNamespace>NetCoreServer</RootNamespace>
-    <MauiVersion>8.0.92</MauiVersion>
+	  <!-- <MauiVersion>8.0.92</MauiVersion> -->
     <SingleProject>true</SingleProject>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
