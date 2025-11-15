@@ -61,8 +61,8 @@
     <Compile Include="..\NetCoreServer\WssSession.cs" Link="WssSession.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.120" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.120" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Platforms\Android\" />
