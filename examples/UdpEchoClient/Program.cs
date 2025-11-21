@@ -7,10 +7,8 @@ using UdpClient = NetCoreServer.UdpClient;
 
 namespace UdpEchoClient
 {
-    class EchoClient : UdpClient
+    class EchoClient(string address, int port) : UdpClient(address, port)
     {
-        public EchoClient(string address, int port) : base(address, port) {}
-
         public void DisconnectAndStop()
         {
             _stop = true;

@@ -8,14 +8,9 @@ using NDesk.Options;
 
 namespace UdpMulticastClient
 {
-    class MulticastClient : NetCoreServer.UdpClient
+    class MulticastClient(string address, string multicast, int port) : NetCoreServer.UdpClient(address, port)
     {
-        public string Multicast { get; set; }
-
-        public MulticastClient(string address, string multicast, int port) : base(address, port)
-        {
-            Multicast = multicast;
-        }
+        public string Multicast { get; set; } = multicast;
 
         protected override void OnConnected()
         {

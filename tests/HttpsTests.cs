@@ -9,10 +9,8 @@ using Xunit;
 
 namespace tests
 {
-    class HttpsCacheSession : HttpsSession
+    class HttpsCacheSession(HttpsServer server) : HttpsSession(server)
     {
-        public HttpsCacheSession(HttpsServer server) : base(server) {}
-
         protected override void OnReceivedRequest(HttpRequest request)
         {
             // Process HTTP request methods
@@ -94,10 +92,8 @@ namespace tests
         }
     }
 
-    class HttpsCacheServer : HttpsServer
+    class HttpsCacheServer(SslContext context, IPAddress address, int port) : HttpsServer(context, address, port)
     {
-        public HttpsCacheServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new HttpsCacheSession(this); }
 
         protected override void OnError(SocketError error)

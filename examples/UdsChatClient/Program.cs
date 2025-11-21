@@ -7,10 +7,8 @@ using NetCoreServer;
 
 namespace UdsChatClient
 {
-    class ChatClient : UdsClient
+    class ChatClient(string path) : UdsClient(path)
     {
-        public ChatClient(string path) : base(path) {}
-
         public void DisconnectAndStop()
         {
             _stop = true;

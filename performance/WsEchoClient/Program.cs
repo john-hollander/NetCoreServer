@@ -7,13 +7,8 @@ using NetCoreServer;
 
 namespace WsEchoClient
 {
-    class EchoClient : WsClient
+    class EchoClient(string address, int port, int messages) : WsClient(address, port)
     {
-        public EchoClient(string address, int port, int messages) : base(address, port)
-        {
-            _messages = messages;
-        }
-
         public override void OnWsConnecting(HttpRequest request)
         {
             request.SetBegin("GET", "/");
@@ -64,7 +59,7 @@ namespace WsEchoClient
 
         private long _sent;
         private long _received;
-        private readonly long _messages;
+        private readonly long _messages = messages;
     }
 
     class Program

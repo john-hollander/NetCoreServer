@@ -7,11 +7,9 @@ using UdpClient = NetCoreServer.UdpClient;
 
 namespace UdpMulticastClient
 {
-    class MulticastClient : UdpClient
+    class MulticastClient(string address, int port) : UdpClient(address, port)
     {
         public string Multicast;
-
-        public MulticastClient(string address, int port) : base(address, port) {}
 
         public void DisconnectAndStop()
         {

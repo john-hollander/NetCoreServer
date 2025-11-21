@@ -8,10 +8,8 @@ using NDesk.Options;
 
 namespace UdpMulticastServer
 {
-    class MulticastServer : UdpServer
+    class MulticastServer(IPAddress address, int port) : UdpServer(address, port)
     {
-        public MulticastServer(IPAddress address, int port) : base(address, port) {}
-
         protected override void OnError(SocketError error)
         {
             Console.WriteLine($"Server caught an error with code {error}");

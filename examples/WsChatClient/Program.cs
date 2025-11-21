@@ -6,10 +6,8 @@ using NetCoreServer;
 
 namespace WsChatClient
 {
-    class ChatClient : WsClient
+    class ChatClient(string address, int port) : WsClient(address, port)
     {
-        public ChatClient(string address, int port) : base(address, port) {}
-
         public void DisconnectAndStop()
         {
             _stop = true;

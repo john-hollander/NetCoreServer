@@ -8,10 +8,8 @@ using NetCoreServer;
 
 namespace WssChatClient
 {
-    class ChatClient : WssClient
+    class ChatClient(SslContext context, string address, int port) : WssClient(context, address, port)
     {
-        public ChatClient(SslContext context, string address, int port) : base(context, address, port) {}
-
         public void DisconnectAndStop()
         {
             _stop = true;

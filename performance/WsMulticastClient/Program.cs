@@ -7,10 +7,8 @@ using System.Threading;
 
 namespace WsMulticastClient
 {
-    class MulticastClient : WsClient
+    class MulticastClient(string address, int port) : WsClient(address, port)
     {
-        public MulticastClient(string address, int port) : base(address, port) {}
-
         public override void OnWsConnecting(HttpRequest request)
         {
             request.SetBegin("GET", "/");

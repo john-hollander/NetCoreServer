@@ -51,10 +51,8 @@ namespace tests
         private static CommonCache _instance;
     }
 
-    class HttpCacheSession : HttpSession
+    class HttpCacheSession(HttpServer server) : HttpSession(server)
     {
-        public HttpCacheSession(HttpServer server) : base(server) {}
-
         protected override void OnReceivedRequest(HttpRequest request)
         {
             // Process HTTP request methods
@@ -136,10 +134,8 @@ namespace tests
         }
     }
 
-    class HttpCacheServer : HttpServer
+    class HttpCacheServer(IPAddress address, int port) : HttpServer(address, port)
     {
-        public HttpCacheServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new HttpCacheSession(this); }
 
         protected override void OnError(SocketError error)

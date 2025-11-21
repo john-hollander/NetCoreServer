@@ -8,13 +8,11 @@ using Xunit;
 
 namespace tests
 {
-    class EchoUdpClient : NetCoreServer.UdpClient
+    class EchoUdpClient(string address, int port) : NetCoreServer.UdpClient(address, port)
     {
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoUdpClient(string address, int port) : base(address, port) {}
 
         protected override void OnConnected() { Connected = true; ReceiveAsync(); }
         protected override void OnDisconnected() { Disconnected = true; }
@@ -22,13 +20,11 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoUdpServer : UdpServer
+    class EchoUdpServer(IPAddress address, int port) : UdpServer(address, port)
     {
         public bool Started { get; set; }
         public bool Stopped { get; set; }
         public bool Errors { get; set; }
-
-        public EchoUdpServer(IPAddress address, int port) : base(address, port) {}
 
         protected override void OnStarted() { Started = true; ReceiveAsync(); }
         protected override void OnStopped() { Stopped = true; }

@@ -10,20 +10,16 @@ using System.Threading.Tasks;
 
 namespace WssMulticastServer
 {
-    class MulticastSession : WssSession
+    class MulticastSession(WssServer server) : WssSession(server)
     {
-        public MulticastSession(WssServer server) : base(server) {}
-
         protected override void OnError(SocketError error)
         {
             Console.WriteLine($"Session caught an error with code {error}");
         }
     }
 
-    class MulticastServer : WssServer
+    class MulticastServer(SslContext context, IPAddress address, int port) : WssServer(context, address, port)
     {
-        public MulticastServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new MulticastSession(this); }
 
         protected override void OnError(SocketError error)

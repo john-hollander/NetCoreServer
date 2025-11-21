@@ -11,13 +11,11 @@ using com.chronoxor.simple.FBE;
 
 namespace tests
 {
-    class TcpProtoClient : NetCoreServer.TcpClient
+    class TcpProtoClient(string address, int port) : NetCoreServer.TcpClient(address, port)
     {
         public bool Conected { get; set; }
         public bool Disconected { get; set; }
         public bool Errors { get; set; }
-
-        public TcpProtoClient(string address, int port) : base(address, port) {}
 
         public delegate void ConnectedHandler();
         public event ConnectedHandler Connected = () => {};
@@ -172,11 +170,9 @@ namespace tests
         #endregion
     }
 
-    class ProtoSessionSender : Sender, ISenderListener
+    class ProtoSessionSender(ProtoSession session) : Sender, ISenderListener
     {
-        public ProtoSession Session { get; }
-
-        public ProtoSessionSender(ProtoSession session) { Session = session; }
+        public ProtoSession Session { get; } = session;
 
         public long OnSend(byte[] buffer, long offset, long size)
         {
@@ -184,11 +180,9 @@ namespace tests
         }
     }
 
-    class ProtoSessionReceiver : Receiver, IReceiverListener
+    class ProtoSessionReceiver(ProtoSession session) : Receiver, IReceiverListener
     {
-        public ProtoSession Session { get; }
-
-        public ProtoSessionReceiver(ProtoSession session) { Session = session; }
+        public ProtoSession Session { get; } = session;
 
         public void OnReceive(SimpleRequest request) { Session.OnReceive(request); }
     }
@@ -221,11 +215,9 @@ namespace tests
         }
     }
 
-    class ProtoSender : Sender, ISenderListener
+    class ProtoSender(ProtoServer server) : Sender, ISenderListener
     {
-        public ProtoServer Server { get; }
-
-        public ProtoSender(ProtoServer server) { Server = server; }
+        public ProtoServer Server { get; } = server;
 
         public long OnSend(byte[] buffer, long offset, long size)
         {

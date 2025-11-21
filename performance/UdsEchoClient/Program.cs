@@ -8,13 +8,8 @@ using NDesk.Options;
 
 namespace UdsEchoClient
 {
-    class EchoClient : UdsClient
+    class EchoClient(string path, int messages) : UdsClient(path)
     {
-        public EchoClient(string path, int messages) : base(path)
-        {
-            _messages = messages;
-        }
-
         protected override void OnConnected()
         {
             for (long i = _messages; i > 0; i--)
@@ -52,7 +47,7 @@ namespace UdsEchoClient
 
         private long _sent;
         private long _received;
-        private readonly long _messages;
+        private readonly long _messages = messages;
     }
 
     class Program

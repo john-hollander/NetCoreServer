@@ -6,10 +6,8 @@ using System.Net.Sockets;
 
 namespace WsEchoServer
 {
-    class EchoSession : WsSession
+    class EchoSession(WsServer server) : WsSession(server)
     {
-        public EchoSession(WsServer server) : base(server) {}
-
         public override void OnWsReceived(byte[] buffer, long offset, long size)
         {
             // Resend the message back to the client
@@ -22,10 +20,8 @@ namespace WsEchoServer
         }
     }
 
-    class EchoServer : WsServer
+    class EchoServer(IPAddress address, int port) : WsServer(address, port)
     {
-        public EchoServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new EchoSession(this); }
 
         protected override void OnError(SocketError error)

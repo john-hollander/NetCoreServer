@@ -10,14 +10,12 @@ using Xunit;
 
 namespace tests
 {
-    class EchoSslClient : SslClient
+    class EchoSslClient(SslContext context, string address, int port) : SslClient(context, address, port)
     {
         public bool Connected { get; set; }
         public bool Handshaked { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoSslClient(SslContext context, string address, int port) : base(context, address, port) {}
 
         public static SslContext CreateContext()
         {
@@ -38,14 +36,12 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoSslSession : SslSession
+    class EchoSslSession(SslServer server) : SslSession(server)
     {
         public bool Connected { get; set; }
         public bool Handshaked { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoSslSession(SslServer server) : base(server) {}
 
         protected override void OnConnected() { Connected = true; }
         protected override void OnHandshaked() { Handshaked = true; }
@@ -54,7 +50,7 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoSslServer : SslServer
+    class EchoSslServer(SslContext context, IPAddress address, int port) : SslServer(context, address, port)
     {
         public bool Started { get; set; }
         public bool Stopped { get; set; }
@@ -63,8 +59,6 @@ namespace tests
         public bool Disconnected { get; set; }
         public int Clients { get; set; }
         public bool Errors { get; set; }
-
-        public EchoSslServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
 
         public static SslContext CreateContext()
         {

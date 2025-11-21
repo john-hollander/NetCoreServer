@@ -9,10 +9,8 @@ using System.Threading;
 
 namespace WssMulticastClient
 {
-    class MulticastClient : WssClient
+    class MulticastClient(SslContext context, string address, int port) : WssClient(context, address, port)
     {
-        public MulticastClient(SslContext context, string address, int port) : base(context, address, port) {}
-
         public override void OnWsConnecting(HttpRequest request)
         {
             request.SetBegin("GET", "/");

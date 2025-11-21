@@ -6,10 +6,8 @@ using NetCoreServer;
 
 namespace UdsChatServer
 {
-    class ChatSession : UdsSession
+    class ChatSession(UdsServer server) : UdsSession(server)
     {
-        public ChatSession(UdsServer server) : base(server) {}
-
         protected override void OnConnected()
         {
             Console.WriteLine($"Chat Unix Domain Socket session with Id {Id} connected!");
@@ -43,10 +41,8 @@ namespace UdsChatServer
         }
     }
 
-    class ChatServer : UdsServer
+    class ChatServer(string path) : UdsServer(path)
     {
-        public ChatServer(string path) : base(path) {}
-
         protected override UdsSession CreateSession() { return new ChatSession(this); }
 
         protected override void OnError(SocketError error)

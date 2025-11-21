@@ -8,10 +8,8 @@ using NetCoreServer;
 
 namespace SslChatServer
 {
-    class ChatSession : SslSession
+    class ChatSession(SslServer server) : SslSession(server)
     {
-        public ChatSession(SslServer server) : base(server) {}
-
         protected override void OnConnected()
         {
             Console.WriteLine($"Chat SSL session with Id {Id} connected!");
@@ -50,10 +48,8 @@ namespace SslChatServer
         }
     }
 
-    class ChatServer : SslServer
+    class ChatServer(SslContext context, IPAddress address, int port) : SslServer(context, address, port)
     {
-        public ChatServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new ChatSession(this); }
 
         protected override void OnError(SocketError error)

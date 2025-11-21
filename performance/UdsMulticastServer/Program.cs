@@ -8,10 +8,8 @@ using NDesk.Options;
 
 namespace UdsMulticastServer
 {
-    class MulticastSession : UdsSession
+    class MulticastSession(UdsServer server) : UdsSession(server)
     {
-        public MulticastSession(UdsServer server) : base(server) {}
-
         public override bool SendAsync(byte[] buffer, long offset, long size)
         {
             // Limit session send buffer to 1 megabyte
@@ -31,10 +29,8 @@ namespace UdsMulticastServer
         }
     }
 
-    class MulticastServer : UdsServer
+    class MulticastServer(string path) : UdsServer(path)
     {
-        public MulticastServer(string path) : base(path) {}
-
         protected override UdsSession CreateSession() { return new MulticastSession(this); }
 
         protected override void OnError(SocketError error)

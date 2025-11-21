@@ -8,10 +8,8 @@ using NetCoreServer;
 
 namespace WssChatServer
 {
-    class ChatSession : WssSession
+    class ChatSession(WssServer server) : WssSession(server)
     {
-        public ChatSession(WssServer server) : base(server) {}
-
         public override void OnWsConnected(HttpRequest request)
         {
             Console.WriteLine($"Chat WebSocket session with Id {Id} connected!");
@@ -45,10 +43,8 @@ namespace WssChatServer
         }
     }
 
-    class ChatServer : WssServer
+    class ChatServer(SslContext context, IPAddress address, int port) : WssServer(context, address, port)
     {
-        public ChatServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new ChatSession(this); }
 
         protected override void OnError(SocketError error)

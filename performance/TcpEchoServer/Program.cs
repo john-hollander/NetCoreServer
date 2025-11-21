@@ -6,10 +6,8 @@ using NDesk.Options;
 
 namespace TcpEchoServer
 {
-    class EchoSession : TcpSession
+    class EchoSession(TcpServer server) : TcpSession(server)
     {
-        public EchoSession(TcpServer server) : base(server) {}
-
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             // Resend the message back to the client
@@ -22,10 +20,8 @@ namespace TcpEchoServer
         }
     }
 
-    class EchoServer : TcpServer
+    class EchoServer(IPAddress address, int port) : TcpServer(address, port)
     {
-        public EchoServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new EchoSession(this); }
 
         protected override void OnError(SocketError error)

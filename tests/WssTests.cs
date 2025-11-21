@@ -10,15 +10,13 @@ using Xunit;
 
 namespace tests
 {
-    class EchoWssClient : WssClient
+    class EchoWssClient(SslContext context, string address, int port) : WssClient(context, address, port)
     {
         public bool IsWsConnected { get; set; }
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public int Received { get; set; }
         public bool Errors { get; set; }
-
-        public EchoWssClient(SslContext context, string address, int port) : base(context, address, port) {}
 
         public static SslContext CreateContext()
         {
@@ -52,13 +50,11 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoWssSession : WssSession
+    class EchoWssSession(WssServer server) : WssSession(server)
     {
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoWssSession(WssServer server) : base(server) {}
 
         public override void OnWsConnected(HttpResponse response) { Connected = true; }
         public override void OnWsDisconnected() { Disconnected = true; }
@@ -67,7 +63,7 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoWssServer : WssServer
+    class EchoWssServer(SslContext context, IPAddress address, int port) : WssServer(context, address, port)
     {
         public bool Started { get; set; }
         public bool Stopped { get; set; }
@@ -75,8 +71,6 @@ namespace tests
         public bool Disconnected { get; set; }
         public int Clients { get; set; }
         public bool Errors { get; set; }
-
-        public EchoWssServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
 
         public static SslContext CreateContext()
         {

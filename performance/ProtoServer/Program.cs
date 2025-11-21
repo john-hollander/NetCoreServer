@@ -19,11 +19,9 @@ namespace ProtoServer
         }
     }
 
-    class ProtoSessionReceiver : Receiver, IReceiverListener
+    class ProtoSessionReceiver(ProtoSession session) : Receiver, IReceiverListener
     {
-        public ProtoSession Session { get; }
-
-        public ProtoSessionReceiver(ProtoSession session) { Session = session; }
+        public ProtoSession Session { get; } = session;
 
         public void OnReceive(SimpleRequest request) { Session.OnReceive(request); }
     }
@@ -61,11 +59,9 @@ namespace ProtoServer
         }
     }
 
-    class ProtoSender : Sender, ISenderListener
+    class ProtoSender(ProtoServer server) : Sender, ISenderListener
     {
-        public ProtoServer Server { get; }
-
-        public ProtoSender(ProtoServer server) { Server = server; }
+        public ProtoServer Server { get; } = server;
 
         public long OnSend(byte[] buffer, long offset, long size)
         {

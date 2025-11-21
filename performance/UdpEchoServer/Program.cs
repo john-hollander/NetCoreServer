@@ -7,10 +7,8 @@ using NDesk.Options;
 
 namespace UdpEchoServer
 {
-    class EchoServer : UdpServer
+    class EchoServer(IPAddress address, int port) : UdpServer(address, port)
     {
-        public EchoServer(IPAddress address, int port) : base(address, port) {}
-
         protected override void OnStarted()
         {
             // Start receive datagrams

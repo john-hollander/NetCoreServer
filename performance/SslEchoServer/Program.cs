@@ -8,10 +8,8 @@ using NDesk.Options;
 
 namespace SslEchoServer
 {
-    class EchoSession : SslSession
+    class EchoSession(SslServer server) : SslSession(server)
     {
-        public EchoSession(SslServer server) : base(server) {}
-
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             // Resend the message back to the client
@@ -24,10 +22,8 @@ namespace SslEchoServer
         }
     }
 
-    class EchoServer : SslServer
+    class EchoServer(SslContext context, IPAddress address, int port) : SslServer(context, address, port)
     {
-        public EchoServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new EchoSession(this); }
 
         protected override void OnError(SocketError error)

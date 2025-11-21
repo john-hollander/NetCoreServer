@@ -8,15 +8,13 @@ using Xunit;
 
 namespace tests
 {
-    class EchoWsClient : WsClient
+    class EchoWsClient(string address, int port) : WsClient(address, port)
     {
         public bool IsWsConnected { get; set; }
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public int Received { get; set; }
         public bool Errors { get; set; }
-
-        public EchoWsClient(string address, int port) : base(address, port) {}
 
         public override void OnWsConnecting(HttpRequest request)
         {
@@ -37,13 +35,11 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoWsSession : WsSession
+    class EchoWsSession(WsServer server) : WsSession(server)
     {
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoWsSession(WsServer server) : base(server) {}
 
         public override void OnWsConnected(HttpResponse response) { Connected = true; }
         public override void OnWsDisconnected() { Disconnected = true; }
@@ -52,7 +48,7 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoWsServer : WsServer
+    class EchoWsServer(IPAddress address, int port) : WsServer(address, port)
     {
         public bool Started { get; set; }
         public bool Stopped { get; set; }
@@ -60,8 +56,6 @@ namespace tests
         public bool Disconnected { get; set; }
         public int Clients { get; set; }
         public bool Errors { get; set; }
-
-        public EchoWsServer(IPAddress address, int port) : base(address, port) {}
 
         protected override TcpSession CreateSession() { return new EchoWsSession(this); }
 

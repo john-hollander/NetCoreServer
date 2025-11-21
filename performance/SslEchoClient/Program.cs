@@ -9,13 +9,8 @@ using NDesk.Options;
 
 namespace SslEchoClient
 {
-    class EchoClient : SslClient
+    class EchoClient(SslContext context, string address, int port, int messages) : SslClient(context, address, port)
     {
-        public EchoClient(SslContext context, string address, int port, int messages) : base(context, address, port)
-        {
-            _messages = messages;
-        }
-
         protected override void OnHandshaked()
         {
             for (long i = _messages; i > 0; i--)
@@ -53,7 +48,7 @@ namespace SslEchoClient
 
         private long _sent;
         private long _received;
-        private readonly long _messages;
+        private readonly long _messages = messages;
     }
 
     class Program

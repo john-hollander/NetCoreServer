@@ -10,10 +10,8 @@ using NDesk.Options;
 
 namespace SslMulticastServer
 {
-    class MulticastSession : SslSession
+    class MulticastSession(SslServer server) : SslSession(server)
     {
-        public MulticastSession(SslServer server) : base(server) {}
-
         public override bool SendAsync(byte[] buffer, long offset, long size)
         {
             // Limit session send buffer to 1 megabyte
@@ -33,10 +31,8 @@ namespace SslMulticastServer
         }
     }
 
-    class MulticastServer : SslServer
+    class MulticastServer(SslContext context, IPAddress address, int port) : SslServer(context, address, port)
     {
-        public MulticastServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new MulticastSession(this); }
 
         protected override void OnError(SocketError error)

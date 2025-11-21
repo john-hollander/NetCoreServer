@@ -8,10 +8,8 @@ using NetCoreServer;
 
 namespace SslChatClient
 {
-    class ChatClient : SslClient
+    class ChatClient(SslContext context, string address, int port) : SslClient(context, address, port)
     {
-        public ChatClient(SslContext context, string address, int port) : base(context, address, port) {}
-
         public void DisconnectAndStop()
         {
             _stop = true;

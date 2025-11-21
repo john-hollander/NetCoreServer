@@ -6,10 +6,8 @@ using TcpClient = NetCoreServer.TcpClient;
 
 namespace TcpChatClient
 {
-    class ChatClient : TcpClient
+    class ChatClient(string address, int port) : TcpClient(address, port)
     {
-        public ChatClient(string address, int port) : base(address, port) {}
-
         public void DisconnectAndStop()
         {
             _stop = true;

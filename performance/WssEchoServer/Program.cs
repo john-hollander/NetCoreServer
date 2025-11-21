@@ -8,10 +8,8 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace WssEchoServer
 {
-    class EchoSession : WssSession
+    class EchoSession(WssServer server) : WssSession(server)
     {
-        public EchoSession(WssServer server) : base(server) {}
-
         public override void OnWsReceived(byte[] buffer, long offset, long size)
         {
             // Resend the message back to the client
@@ -24,10 +22,8 @@ namespace WssEchoServer
         }
     }
 
-    class EchoServer : WssServer
+    class EchoServer(SslContext context, IPAddress address, int port) : WssServer(context, address, port)
     {
-        public EchoServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new EchoSession(this); }
 
         protected override void OnError(SocketError error)

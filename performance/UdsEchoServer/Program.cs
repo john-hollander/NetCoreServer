@@ -6,10 +6,8 @@ using NDesk.Options;
 
 namespace UdsEchoServer
 {
-    class EchoSession : UdsSession
+    class EchoSession(UdsServer server) : UdsSession(server)
     {
-        public EchoSession(UdsServer server) : base(server) {}
-
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             // Resend the message back to the client
@@ -22,10 +20,8 @@ namespace UdsEchoServer
         }
     }
 
-    class EchoServer : UdsServer
+    class EchoServer(string path) : UdsServer(path)
     {
-        public EchoServer(string path) : base(path) {}
-
         protected override UdsSession CreateSession() { return new EchoSession(this); }
 
         protected override void OnError(SocketError error)

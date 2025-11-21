@@ -7,10 +7,8 @@ using NDesk.Options;
 
 namespace TcpMulticastClient
 {
-    class MulticastClient : NetCoreServer.TcpClient
+    class MulticastClient(string address, int port) : NetCoreServer.TcpClient(address, port)
     {
-        public MulticastClient(string address, int port) : base(address, port) {}
-
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             Program.TotalBytes += size;

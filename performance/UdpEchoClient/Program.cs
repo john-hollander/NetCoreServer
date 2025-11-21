@@ -8,13 +8,8 @@ using NDesk.Options;
 
 namespace UdpEchoClient
 {
-    class EchoClient : NetCoreServer.UdpClient
+    class EchoClient(string address, int port, int messages) : NetCoreServer.UdpClient(address, port)
     {
-        public EchoClient(string address, int port, int messages) : base(address, port)
-        {
-            _messages = messages;
-        }
-
         protected override void OnConnected()
         {
             // Start receive datagrams
@@ -48,7 +43,7 @@ namespace UdpEchoClient
             Send(Program.MessageToSend);
         }
 
-        private readonly long _messages;
+        private readonly long _messages = messages;
     }
 
     class Program

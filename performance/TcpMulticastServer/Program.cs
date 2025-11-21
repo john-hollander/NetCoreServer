@@ -8,10 +8,8 @@ using NDesk.Options;
 
 namespace TcpMulticastServer
 {
-    class MulticastSession : TcpSession
+    class MulticastSession(TcpServer server) : TcpSession(server)
     {
-        public MulticastSession(TcpServer server) : base(server) {}
-
         public override bool SendAsync(byte[] buffer, long offset, long size)
         {
             // Limit session send buffer to 1 megabyte
@@ -31,10 +29,8 @@ namespace TcpMulticastServer
         }
     }
 
-    class MulticastServer : TcpServer
+    class MulticastServer(IPAddress address, int port) : TcpServer(address, port)
     {
-        public MulticastServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new MulticastSession(this); }
 
         protected override void OnError(SocketError error)

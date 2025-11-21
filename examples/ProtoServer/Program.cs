@@ -18,11 +18,9 @@ namespace ProtoServer
         }
     }
 
-    public class SimpleProtoSessionReceiver : Receiver, IReceiverListener
+    public class SimpleProtoSessionReceiver(SimpleProtoSession session) : Receiver, IReceiverListener
     {
-        public SimpleProtoSession Session { get; }
-
-        public SimpleProtoSessionReceiver(SimpleProtoSession session) { Session = session; }
+        public SimpleProtoSession Session { get; } = session;
 
         public void OnReceive(DisconnectRequest request) { Session.OnReceive(request); }
         public void OnReceive(SimpleRequest request) { Session.OnReceive(request); }
@@ -65,7 +63,7 @@ namespace ProtoServer
         }
 
         // Protocol handlers
-        public void OnReceive(DisconnectRequest request) { Disconnect(); }
+        public void OnReceive(DisconnectRequest _) { Disconnect(); }
         public void OnReceive(SimpleRequest request) 
         {
             Console.WriteLine($"Received: {request}");
@@ -90,11 +88,9 @@ namespace ProtoServer
         }
     }
 
-    public class SimpleProtoSender : Sender, ISenderListener
+    public class SimpleProtoSender(SimpleProtoServer server) : Sender, ISenderListener
     {
-        public SimpleProtoServer Server { get; }
-
-        public SimpleProtoSender(SimpleProtoServer server) { Server = server; }
+        public SimpleProtoServer Server { get; } = server;
 
         public long OnSend(byte[] buffer, long offset, long size)
         {

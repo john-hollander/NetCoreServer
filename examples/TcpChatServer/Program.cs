@@ -6,10 +6,8 @@ using NetCoreServer;
 
 namespace TcpChatServer
 {
-    class ChatSession : TcpSession
+    class ChatSession(TcpServer server) : TcpSession(server)
     {
-        public ChatSession(TcpServer server) : base(server) {}
-
         protected override void OnConnected()
         {
             Console.WriteLine($"Chat TCP session with Id {Id} connected!");
@@ -43,10 +41,8 @@ namespace TcpChatServer
         }
     }
 
-    class ChatServer : TcpServer
+    class ChatServer(IPAddress address, int port) : TcpServer(address, port)
     {
-        public ChatServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new ChatSession(this); }
 
         protected override void OnError(SocketError error)

@@ -8,20 +8,16 @@ using System.Threading.Tasks;
 
 namespace WsMulticastServer
 {
-    class MulticastSession : WsSession
+    class MulticastSession(WsServer server) : WsSession(server)
     {
-        public MulticastSession(WsServer server) : base(server) {}
-
         protected override void OnError(SocketError error)
         {
             Console.WriteLine($"Session caught an error with code {error}");
         }
     }
 
-    class MulticastServer : WsServer
+    class MulticastServer(IPAddress address, int port) : WsServer(address, port)
     {
-        public MulticastServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new MulticastSession(this); }
 
         protected override void OnError(SocketError error)

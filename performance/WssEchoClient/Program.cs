@@ -9,13 +9,8 @@ using System.Threading;
 
 namespace WssEchoClient
 {
-    class EchoClient : WssClient
+    class EchoClient(SslContext context, string address, int port, int messages) : WssClient(context, address, port)
     {
-        public EchoClient(SslContext context, string address, int port, int messages) : base(context, address, port)
-        {
-            _messages = messages;
-        }
-
         public override void OnWsConnecting(HttpRequest request)
         {
             request.SetBegin("GET", "/");
@@ -66,7 +61,7 @@ namespace WssEchoClient
 
         private long _sent;
         private long _received;
-        private readonly long _messages;
+        private readonly long _messages = messages;
     }
 
     class Program

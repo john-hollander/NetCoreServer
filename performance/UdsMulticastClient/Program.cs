@@ -8,10 +8,8 @@ using NDesk.Options;
 
 namespace UdsMulticastClient
 {
-    class MulticastClient : NetCoreServer.UdsClient
+    class MulticastClient(string path) : NetCoreServer.UdsClient(path)
     {
-        public MulticastClient(string path) : base(path) {}
-
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             Program.TotalBytes += size;

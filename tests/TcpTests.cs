@@ -8,26 +8,22 @@ using Xunit;
 
 namespace tests
 {
-    class EchoTcpClient : NetCoreServer.TcpClient
+    class EchoTcpClient(string address, int port) : NetCoreServer.TcpClient(address, port)
     {
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoTcpClient(string address, int port) : base(address, port) {}
 
         protected override void OnConnected() { Connected = true; }
         protected override void OnDisconnected() { Disconnected = true; }
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoTcpSession : TcpSession
+    class EchoTcpSession(TcpServer server) : TcpSession(server)
     {
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoTcpSession(TcpServer server) : base(server) {}
 
         protected override void OnConnected() { Connected = true; }
         protected override void OnDisconnected() { Disconnected = true; }
@@ -35,7 +31,7 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoTcpServer : TcpServer
+    class EchoTcpServer(IPAddress address, int port) : TcpServer(address, port)
     {
         public bool Started { get; set; }
         public bool Stopped { get; set; }
@@ -43,8 +39,6 @@ namespace tests
         public bool Disconnected { get; set; }
         public int Clients { get; set; }
         public bool Errors { get; set; }
-
-        public EchoTcpServer(IPAddress address, int port) : base(address, port) {}
 
         protected override TcpSession CreateSession() { return new EchoTcpSession(this); }
 

@@ -8,26 +8,22 @@ using Xunit;
 
 namespace tests
 {
-    class EchoUdsClient : NetCoreServer.UdsClient
+    class EchoUdsClient(string path) : NetCoreServer.UdsClient(path)
     {
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoUdsClient(string path) : base(path) {}
 
         protected override void OnConnected() { Connected = true; }
         protected override void OnDisconnected() { Disconnected = true; }
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoUdsSession : UdsSession
+    class EchoUdsSession(UdsServer server) : UdsSession(server)
     {
         public bool Connected { get; set; }
         public bool Disconnected { get; set; }
         public bool Errors { get; set; }
-
-        public EchoUdsSession(UdsServer server) : base(server) {}
 
         protected override void OnConnected() { Connected = true; }
         protected override void OnDisconnected() { Disconnected = true; }
@@ -35,7 +31,7 @@ namespace tests
         protected override void OnError(SocketError error) { Errors = true; }
     }
 
-    class EchoUdsServer : UdsServer
+    class EchoUdsServer(string path) : UdsServer(path)
     {
         public bool Started { get; set; }
         public bool Stopped { get; set; }
@@ -43,8 +39,6 @@ namespace tests
         public bool Disconnected { get; set; }
         public int Clients { get; set; }
         public bool Errors { get; set; }
-
-        public EchoUdsServer(string path) : base(path) {}
 
         protected override UdsSession CreateSession() { return new EchoUdsSession(this); }
 

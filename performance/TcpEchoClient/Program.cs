@@ -7,13 +7,8 @@ using NDesk.Options;
 
 namespace TcpEchoClient
 {
-    class EchoClient : NetCoreServer.TcpClient
+    class EchoClient(string address, int port, int messages) : NetCoreServer.TcpClient(address, port)
     {
-        public EchoClient(string address, int port, int messages) : base(address, port)
-        {
-            _messages = messages;
-        }
-
         protected override void OnConnected()
         {
             for (long i = _messages; i > 0; i--)
@@ -51,7 +46,7 @@ namespace TcpEchoClient
 
         private long _sent;
         private long _received;
-        private readonly long _messages;
+        private readonly long _messages = messages;
     }
 
     class Program

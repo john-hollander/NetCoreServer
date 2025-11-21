@@ -9,10 +9,8 @@ using NDesk.Options;
 
 namespace SslMulticastClient
 {
-    class MulticastClient : SslClient
+    class MulticastClient(SslContext context, string address, int port) : SslClient(context, address, port)
     {
-        public MulticastClient(SslContext context, string address, int port) : base(context, address, port) {}
-
         protected override void OnReceived(byte[] buffer, long offset, long size)
         {
             Program.TotalBytes += size;
