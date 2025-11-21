@@ -13,8 +13,7 @@ namespace HttpsServer
     {
         public static CommonCache GetInstance()
         {
-            if (_instance == null)
-                _instance = new CommonCache();
+            _instance ??= new CommonCache();
             return _instance;
         }
 
@@ -48,14 +47,12 @@ namespace HttpsServer
             return _cache.TryRemove(key, out value);
         }
 
-        private readonly ConcurrentDictionary<string, string> _cache = new ConcurrentDictionary<string, string>();
+        private readonly ConcurrentDictionary<string, string> _cache = new();
         private static CommonCache _instance;
     }
 
-    class HttpsCacheSession : HttpsSession
+    class HttpsCacheSession(NetCoreServer.HttpsServer server) : HttpsSession(server)
     {
-        public HttpsCacheSession(NetCoreServer.HttpsServer server) : base(server) {}
-
         protected override void OnReceivedRequest(HttpRequest request)
         {
             // Show HTTP request content
@@ -140,10 +137,8 @@ namespace HttpsServer
         }
     }
 
-    class HttpsCacheServer : NetCoreServer.HttpsServer
+    class HttpsCacheServer(SslContext context, IPAddress address, int port) : NetCoreServer.HttpsServer(context, address, port)
     {
-        public HttpsCacheServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new HttpsCacheSession(this); }
 
         protected override void OnError(SocketError error)
@@ -171,8 +166,15 @@ namespace HttpsServer
 
             Console.WriteLine();
 
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var serverLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "server.pfx",
+                "qwerty".AsSpan(),  // ReadOnlySpan<char> for password (secure, zero-copy)
+                X509KeyStorageFlags.DefaultKeySet  // Optional: controls key persistence (e.g., machine vs. user store)
+            );
+
             // Create and prepare a new SSL server context
-            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2("server.pfx", "qwerty"));
+            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2(serverLoader));
 
             // Create a new HTTP server
             var server = new HttpsCacheServer(context, IPAddress.Any, port);

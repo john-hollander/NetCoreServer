@@ -66,7 +66,7 @@ namespace WssEchoClient
 
         private long _sent;
         private long _received;
-        private long _messages;
+        private readonly long _messages;
     }
 
     class Program
@@ -130,8 +130,16 @@ namespace WssEchoClient
             // Prepare a message to send
             MessageToSend = new byte[size];
 
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var clientLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "client.pfx",
+                "qwerty".AsSpan(),
+                X509KeyStorageFlags.DefaultKeySet
+            );
+
             // Create and prepare a new SSL client context
-            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2("client.pfx", "qwerty"), (sender, certificate, chain, sslPolicyErrors) => true);
+            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2(clientLoader), 
+                                         (sender, certificate, chain, sslPolicyErrors) => true);
 
             // Create echo clients
             var echoClients = new List<EchoClient>();

@@ -10,10 +10,8 @@ using com.chronoxor.simple.FBE;
 
 namespace ProtoClient
 {
-    class TcpProtoClient : NetCoreServer.TcpClient
+    class TcpProtoClient(string address, int port) : NetCoreServer.TcpClient(address, port)
     {
-        public TcpProtoClient(string address, int port) : base(address, port) {}
-
         public delegate void ConnectedHandler();
         public event ConnectedHandler Connected = () => {};
 
@@ -53,7 +51,7 @@ namespace ProtoClient
         public bool IsConnected => _tcpProtoClient.IsConnected;
         public TcpProtoClient TcpClient => _tcpProtoClient;
 
-        private long _messages;
+        private readonly long _messages;
 
         public ProtoClient(string address, int port, int messages)
         {

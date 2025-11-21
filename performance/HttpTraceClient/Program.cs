@@ -7,13 +7,8 @@ using NDesk.Options;
 
 namespace HttpTraceClient
 {
-    class HttpTraceClient : HttpClient
+    class HttpTraceClient(string address, int port, int messages) : HttpClient(address, port)
     {
-        public HttpTraceClient(string address, int port, int messages) : base(address, port)
-        {
-            _messages = messages;
-        }
-
         public void SendMessage() { SendRequestAsync(Request.MakeTraceRequest("/")); }
 
         protected override void OnConnected()
@@ -59,7 +54,7 @@ namespace HttpTraceClient
 
         private long _sent = 0;
         private long _received = 0;
-        private long _messages = 0;
+        private readonly long _messages = messages;
     }
     class Program
     {

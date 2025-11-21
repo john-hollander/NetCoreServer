@@ -8,10 +8,8 @@ using NDesk.Options;
 
 namespace HttpsTraceServer
 {
-    class HttpsTraceSession : HttpsSession
+    class HttpsTraceSession(HttpsServer server) : HttpsSession(server)
     {
-        public HttpsTraceSession(HttpsServer server) : base(server) {}
-
         protected override void OnReceivedRequest(HttpRequest request)
         {
             // Process HTTP request methods
@@ -32,10 +30,8 @@ namespace HttpsTraceServer
         }
     }
 
-    class HttpsTraceServer : HttpsServer
+    class HttpsTraceServer(SslContext context, IPAddress address, int port) : HttpsServer(context, address, port)
     {
-        public HttpsTraceServer(SslContext context, IPAddress address, int port) : base(context, address, port) {}
-
         protected override SslSession CreateSession() { return new HttpsTraceSession(this); }
 
         protected override void OnError(SocketError error)
@@ -80,13 +76,22 @@ namespace HttpsTraceServer
 
             Console.WriteLine();
 
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var serverLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "server.pfx",
+                "qwerty".AsSpan(),  // ReadOnlySpan<char> for password (secure, zero-copy)
+                X509KeyStorageFlags.DefaultKeySet  // Optional: controls key persistence (e.g., machine vs. user store)
+            );
+
             // Create and prepare a new SSL server context
-            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2("server.pfx", "qwerty"));
+            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2(serverLoader));
 
             // Create a new HTTPS server
-            var server = new HttpsTraceServer(context, IPAddress.Any, port);
-            // server.OptionNoDelay = true;
-            server.OptionReuseAddress = true;
+            var server = new HttpsTraceServer(context, IPAddress.Any, port)
+            {
+                // server.OptionNoDelay = true;
+                OptionReuseAddress = true
+            };
 
             // Start the server
             Console.Write("Server starting...");

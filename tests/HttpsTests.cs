@@ -114,9 +114,24 @@ namespace tests
             string address = "127.0.0.1";
             int port = 8443;
 
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var serverLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "server.pfx",
+                "qwerty".AsSpan(),  // ReadOnlySpan<char> for password (secure, zero-copy)
+                X509KeyStorageFlags.DefaultKeySet  // Optional: controls key persistence (e.g., machine vs. user store)
+            );
+
+            var clientLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "client.pfx",
+                "qwerty".AsSpan(),
+                X509KeyStorageFlags.DefaultKeySet
+            );
+
             // Create and prepare a new SSL server and client context
-            var server_context = new SslContext(SslProtocols.Tls13, new X509Certificate2("server.pfx", "qwerty"), (sender, certificate, chain, sslPolicyErrors) => true);
-            var client_context = new SslContext(SslProtocols.Tls13, new X509Certificate2("client.pfx", "qwerty"), (sender, certificate, chain, sslPolicyErrors) => true);
+            var server_context = new SslContext(SslProtocols.Tls13, new X509Certificate2(serverLoader), 
+                                                (sender, certificate, chain, sslPolicyErrors) => true);
+            var client_context = new SslContext(SslProtocols.Tls13, new X509Certificate2(clientLoader), 
+                                                (sender, certificate, chain, sslPolicyErrors) => true);
 
             // Create and start HTTPS server
             var server = new HttpsCacheServer(server_context, IPAddress.Any, port);

@@ -64,7 +64,7 @@ namespace WsEchoClient
 
         private long _sent;
         private long _received;
-        private long _messages;
+        private readonly long _messages;
     }
 
     class Program

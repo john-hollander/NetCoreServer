@@ -26,8 +26,16 @@ namespace HttpsClient
 
             Console.WriteLine();
 
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var clientLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "client.pfx",
+                "qwerty".AsSpan(),
+                X509KeyStorageFlags.DefaultKeySet
+            );
+
             // Create and prepare a new SSL client context
-            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2("client.pfx", "qwerty"), (sender, certificate, chain, sslPolicyErrors) => true);
+            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2(clientLoader),
+                                         (sender, certificate, chain, sslPolicyErrors) => true);
 
             // Create a new HTTPS client
             var client = new HttpsClientEx(context, Dns.GetHostAddresses(address).FirstOrDefault(), port);
@@ -60,17 +68,17 @@ namespace HttpsClient
                     continue;
                 }
 
-                if (commands[0].ToUpper() == "HEAD")
+                if (commands[0].Equals("HEAD", StringComparison.InvariantCultureIgnoreCase))
                 {
                     var response = client.SendHeadRequest(commands[1]).Result;
                     Console.WriteLine(response);
                 }
-                else if (commands[0].ToUpper() == "GET")
+                else if (commands[0].Equals("GET", StringComparison.InvariantCultureIgnoreCase))
                 {
                     var response = client.SendGetRequest(commands[1]).Result;
                     Console.WriteLine(response);
                 }
-                else if (commands[0].ToUpper() == "POST")
+                else if (commands[0].Equals("POST", StringComparison.InvariantCultureIgnoreCase))
                 {
                     if (commands.Length < 3)
                     {
@@ -81,7 +89,7 @@ namespace HttpsClient
                     var response = client.SendPostRequest(commands[1], commands[2]).Result;
                     Console.WriteLine(response);
                 }
-                else if (commands[0].ToUpper() == "PUT")
+                else if (commands[0].Equals("PUT", StringComparison.InvariantCultureIgnoreCase))
                 {
                     if (commands.Length < 3)
                     {
@@ -92,17 +100,17 @@ namespace HttpsClient
                     var response = client.SendPutRequest(commands[1], commands[2]).Result;
                     Console.WriteLine(response);
                 }
-                else if (commands[0].ToUpper() == "DELETE")
+                else if (commands[0].Equals("DELETE", StringComparison.InvariantCultureIgnoreCase))
                 {
                     var response = client.SendDeleteRequest(commands[1]).Result;
                     Console.WriteLine(response);
                 }
-                else if (commands[0].ToUpper() == "OPTIONS")
+                else if (commands[0].Equals("OPTIONS", StringComparison.InvariantCultureIgnoreCase))
                 {
                     var response = client.SendOptionsRequest(commands[1]).Result;
                     Console.WriteLine(response);
                 }
-                else if (commands[0].ToUpper() == "TRACE")
+                else if (commands[0].Equals("TRACE", StringComparison.InvariantCultureIgnoreCase))
                 {
                     var response = client.SendTraceRequest(commands[1]).Result;
                     Console.WriteLine(response);

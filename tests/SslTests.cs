@@ -21,7 +21,15 @@ namespace tests
 
         public static SslContext CreateContext()
         {
-            return new SslContext(SslProtocols.Tls13, new X509Certificate2("client.pfx", "qwerty"), (sender, certificate, chain, sslPolicyErrors) => true);
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var clientLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "client.pfx",
+                "qwerty".AsSpan(),
+                X509KeyStorageFlags.DefaultKeySet
+            );
+
+            return new SslContext(SslProtocols.Tls13, new X509Certificate2(clientLoader),
+                                  (sender, certificate, chain, sslPolicyErrors) => true);
         }
 
         protected override void OnConnected() { Connected = true; }
@@ -60,7 +68,14 @@ namespace tests
 
         public static SslContext CreateContext()
         {
-            return new SslContext(SslProtocols.Tls13, new X509Certificate2("server.pfx", "qwerty"));
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var serverLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "server.pfx",
+                "qwerty".AsSpan(),  // ReadOnlySpan<char> for password (secure, zero-copy)
+                X509KeyStorageFlags.DefaultKeySet  // Optional: controls key persistence (e.g., machine vs. user store)
+            );
+
+            return new SslContext(SslProtocols.Tls13, new X509Certificate2(serverLoader));
         }
 
         protected override SslSession CreateSession() { return new EchoSslSession(this); }

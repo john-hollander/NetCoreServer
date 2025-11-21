@@ -9,11 +9,9 @@ using com.chronoxor.simple.FBE;
 
 namespace ProtoServer
 {
-    class ProtoSessionSender : Sender, ISenderListener
+    class ProtoSessionSender(ProtoSession session) : Sender, ISenderListener
     {
-        public ProtoSession Session { get; }
-
-        public ProtoSessionSender(ProtoSession session) { Session = session; }
+        public ProtoSession Session { get; } = session;
 
         public long OnSend(byte[] buffer, long offset, long size)
         {
@@ -130,9 +128,11 @@ namespace ProtoServer
             Console.WriteLine();
 
             // Create a new protocol server
-            var server = new ProtoServer(IPAddress.Any, port);
-            // server.OptionNoDelay = true;
-            server.OptionReuseAddress = true;
+            var server = new ProtoServer(IPAddress.Any, port)
+            {
+                // server.OptionNoDelay = true;
+                OptionReuseAddress = true
+            };
 
             // Start the server
             Console.Write("Server starting...");

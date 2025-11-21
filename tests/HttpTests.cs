@@ -13,8 +13,7 @@ namespace tests
     {
         public static CommonCache GetInstance()
         {
-            if (_instance == null)
-                _instance = new CommonCache();
+            _instance ??= new CommonCache();
             return _instance;
         }
 
@@ -48,7 +47,7 @@ namespace tests
             return _cache.TryRemove(key, out value);
         }
 
-        private readonly ConcurrentDictionary<string, string> _cache = new ConcurrentDictionary<string, string>();
+        private readonly ConcurrentDictionary<string, string> _cache = new();
         private static CommonCache _instance;
     }
 

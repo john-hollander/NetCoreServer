@@ -9,13 +9,8 @@ using NDesk.Options;
 
 namespace HttpsTraceClient
 {
-    class HttpsTraceClient : HttpsClient
+    class HttpsTraceClient(SslContext context, string address, int port, int messages) : HttpsClient(context, address, port)
     {
-        public HttpsTraceClient(SslContext context, string address, int port, int messages) : base(context, address, port)
-        {
-            _messages = messages;
-        }
-
         public void SendMessage() { SendRequestAsync(Request.MakeTraceRequest("/")); }
 
         protected override void OnHandshaked()
@@ -61,7 +56,7 @@ namespace HttpsTraceClient
 
         private long _sent = 0;
         private long _received = 0;
-        private long _messages = 0;
+        private readonly long _messages = messages;
     }
     class Program
     {
@@ -117,8 +112,16 @@ namespace HttpsTraceClient
 
             Console.WriteLine();
 
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var clientLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "client.pfx",
+                "qwerty".AsSpan(),
+                X509KeyStorageFlags.DefaultKeySet
+            );
+
             // Create and prepare a new SSL client context
-            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2("client.pfx", "qwerty"), (sender, certificate, chain, sslPolicyErrors) => true);
+            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2(clientLoader),
+                                         (sender, certificate, chain, sslPolicyErrors) => true);
 
             // Create HTTPS clients
             var httpsClients = new List<HttpsTraceClient>();

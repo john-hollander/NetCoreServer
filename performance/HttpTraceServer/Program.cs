@@ -6,10 +6,8 @@ using NDesk.Options;
 
 namespace HttpTraceServer
 {
-    class HttpTraceSession : HttpSession
+    class HttpTraceSession(HttpServer server) : HttpSession(server)
     {
-        public HttpTraceSession(HttpServer server) : base(server) {}
-
         protected override void OnReceivedRequest(HttpRequest request)
         {
             // Process HTTP request methods
@@ -30,10 +28,8 @@ namespace HttpTraceServer
         }
     }
 
-    class HttpTraceServer : HttpServer
+    class HttpTraceServer(IPAddress address, int port) : HttpServer(address, port)
     {
-        public HttpTraceServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new HttpTraceSession(this); }
 
         protected override void OnError(SocketError error)
@@ -79,9 +75,11 @@ namespace HttpTraceServer
             Console.WriteLine();
 
             // Create a new HTTP server
-            var server = new HttpTraceServer(IPAddress.Any, port);
-            // server.OptionNoDelay = true;
-            server.OptionReuseAddress = true;
+            var server = new HttpTraceServer(IPAddress.Any, port)
+            {
+                // server.OptionNoDelay = true;
+                OptionReuseAddress = true
+            };
 
             // Start the server
             Console.Write("Server starting...");

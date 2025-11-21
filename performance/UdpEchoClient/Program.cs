@@ -48,7 +48,7 @@ namespace UdpEchoClient
             Send(Program.MessageToSend);
         }
 
-        private long _messages;
+        private readonly long _messages;
     }
 
     class Program

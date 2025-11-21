@@ -8,10 +8,8 @@ using com.chronoxor.simple.FBE;
 
 namespace ProtoClient
 {
-    public class TcpProtoClient : TcpClient
+    public class TcpProtoClient(string address, int port) : TcpClient(address, port)
     {
-        public TcpProtoClient(string address, int port) : base(address, port) {}
-
         public bool ConnectAndStart()
         {
             Console.WriteLine($"TCP protocol client starting a new session with Id '{Id}'...");
@@ -195,8 +193,7 @@ namespace ProtoClient
 
         public static void WatchdogThread(object obj)
         {
-            var instance = obj as SimpleProtoClient;
-            if (instance == null)
+            if (obj is not SimpleProtoClient instance)
                 return;
 
             try

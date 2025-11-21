@@ -76,8 +76,15 @@ namespace WssChatServer
 
             Console.WriteLine();
 
+            // Load PFX (PKCS#12) files with password — returns a loader for the cert + key + chain
+            var serverLoader = X509CertificateLoader.LoadPkcs12FromFile(
+                "server.pfx",
+                "qwerty".AsSpan(),  // ReadOnlySpan<char> for password (secure, zero-copy)
+                X509KeyStorageFlags.DefaultKeySet  // Optional: controls key persistence (e.g., machine vs. user store)
+            );
+
             // Create and prepare a new SSL server context
-            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2("server.pfx", "qwerty"));
+            var context = new SslContext(SslProtocols.Tls13, new X509Certificate2(serverLoader));
 
             // Create a new WebSocket server
             var server = new ChatServer(context, IPAddress.Any, port);

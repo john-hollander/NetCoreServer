@@ -11,8 +11,7 @@ namespace HttpServer
     {
         public static CommonCache GetInstance()
         {
-            if (_instance == null)
-                _instance = new CommonCache();
+            _instance ??= new CommonCache();
             return _instance;
         }
 
@@ -46,14 +45,12 @@ namespace HttpServer
             return _cache.TryRemove(key, out value);
         }
 
-        private readonly ConcurrentDictionary<string, string> _cache = new ConcurrentDictionary<string, string>();
+        private readonly ConcurrentDictionary<string, string> _cache = new();
         private static CommonCache _instance;
     }
 
-    class HttpCacheSession : HttpSession
+    class HttpCacheSession(NetCoreServer.HttpServer server) : HttpSession(server)
     {
-        public HttpCacheSession(NetCoreServer.HttpServer server) : base(server) {}
-
         protected override void OnReceivedRequest(HttpRequest request)
         {
             // Show HTTP request content
@@ -138,10 +135,8 @@ namespace HttpServer
         }
     }
 
-    class HttpCacheServer : NetCoreServer.HttpServer
+    class HttpCacheServer(IPAddress address, int port) : NetCoreServer.HttpServer(address, port)
     {
-        public HttpCacheServer(IPAddress address, int port) : base(address, port) {}
-
         protected override TcpSession CreateSession() { return new HttpCacheSession(this); }
 
         protected override void OnError(SocketError error)

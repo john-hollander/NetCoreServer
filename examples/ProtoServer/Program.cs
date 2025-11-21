@@ -8,11 +8,9 @@ using com.chronoxor.simple.FBE;
 
 namespace ProtoServer
 {
-    public class SimpleProtoSessionSender : Sender, ISenderListener
+    public class SimpleProtoSessionSender(SimpleProtoSession session) : Sender, ISenderListener
     {
-        public SimpleProtoSession Session { get; }
-
-        public SimpleProtoSessionSender(SimpleProtoSession session) { Session = session; }
+        public SimpleProtoSession Session { get; } = session;
 
         public long OnSend(byte[] buffer, long offset, long size)
         {

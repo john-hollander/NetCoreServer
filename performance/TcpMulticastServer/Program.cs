@@ -86,9 +86,11 @@ namespace TcpMulticastServer
             Console.WriteLine();
 
             // Create a new echo server
-            var server = new MulticastServer(IPAddress.Any, port);
-            // server.OptionNoDelay = true;
-            server.OptionReuseAddress = true;
+            var server = new MulticastServer(IPAddress.Any, port)
+            {
+                // server.OptionNoDelay = true;
+                OptionReuseAddress = true
+            };
 
             // Start the server
             Console.Write("Server starting...");
